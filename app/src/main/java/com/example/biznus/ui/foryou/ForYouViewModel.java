@@ -1,16 +1,16 @@
-package com.example.biznus.ui.home;
+package com.example.biznus.ui.foryou;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class ForYouViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public ForYouViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is for you fragment");
     }
 
     public LiveData<String> getText() {

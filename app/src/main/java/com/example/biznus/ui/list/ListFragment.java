@@ -1,4 +1,4 @@
-package com.example.biznus.ui.explore;
+package com.example.biznus.ui.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,23 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.biznus.databinding.FragmentExploreBinding;
+import com.example.biznus.databinding.FragmentListBinding;
 
+public class ListFragment extends Fragment {
 
-public class ExploreFragment extends Fragment {
-
-    private FragmentExploreBinding binding;
+    private FragmentListBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ExploreViewModel exploreViewModel =
-                new ViewModelProvider(this).get(ExploreViewModel.class);
+        ListViewModel listViewModel =
+                new ViewModelProvider(this).get(ListViewModel.class);
 
-        binding = FragmentExploreBinding.inflate(inflater, container, false);
+        binding = FragmentListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textExplore;
-        exploreViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textList;
+        listViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -35,5 +34,4 @@ public class ExploreFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

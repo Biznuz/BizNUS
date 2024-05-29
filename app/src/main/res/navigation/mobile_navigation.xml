@@ -13,13 +13,25 @@
 
     <fragment
         android:id="@+id/navigation_for_you"
-        android:name="com.example.biznus.ui.dashboard.DashboardFragment"
+        android:name="com.example.biznus.ui.foryou.ForYouFragment"
         android:label="@string/title_For_You"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_for_you" />
+
+    <fragment
+        android:id="@+id/navigation_list"
+        android:name="com.example.biznus.ui.list.ListFragment"
+        android:label="@string/title_List"
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.biznus.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.example.biznus.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
 </navigation>

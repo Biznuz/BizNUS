@@ -1,4 +1,4 @@
-package com.example.biznus.ui.dashboard;
+package com.example.biznus.ui.foryou;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.biznus.databinding.FragmentDashboardBinding;
+import com.example.biznus.databinding.FragmentForYouBinding;
 
-public class DashboardFragment extends Fragment {
+public class ForYouFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentForYouBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        ForYouViewModel forYouViewModel =
+                new ViewModelProvider(this).get(ForYouViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentForYouBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textForYou;
+        forYouViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
