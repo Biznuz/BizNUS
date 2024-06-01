@@ -29,15 +29,26 @@ import com.example.biznus.R;
 import com.example.biznus.ui.login.LoginViewModel;
 import com.example.biznus.ui.login.LoginViewModelFactory;
 import com.example.biznus.databinding.ActivityLoginBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
 
+    // database
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // checking database connectivity
+        database= FirebaseDatabase.getInstance();
+        databaseReference=database.getReference("Message");
+        databaseReference.setValue("Hello Jasmine!");
 
         // dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -50,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final Button loginButton = binding.loginButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
