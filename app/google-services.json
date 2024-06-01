@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "141298140130",
+    "firebase_url": "https://biznus-40810-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "biznus-40810",
+    "storage_bucket": "biznus-40810.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141298140130:android:f78bc1dd53c0439393afbb",
+        "android_client_info": {
+          "package_name": "com.example.biznus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxJmjA9YqBo9ewzDdVErVE2r7JyzCKgO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
