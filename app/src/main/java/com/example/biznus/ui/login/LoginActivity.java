@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         // dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -145,10 +146,10 @@ public class LoginActivity extends AppCompatActivity {
         String welcome = "Welcome "+ model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-
         // toggle to main activity
         Intent i = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
+
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
