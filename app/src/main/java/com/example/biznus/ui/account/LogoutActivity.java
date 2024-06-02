@@ -9,7 +9,6 @@ import com.example.biznus.databinding.ActivityLoginBinding;
 import com.example.biznus.ui.login.LoginViewModel;
 
 public class LogoutActivity extends AppCompatActivity {
-    private ActivityLoginBinding binding;
     private LoginViewModel loginViewModel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
