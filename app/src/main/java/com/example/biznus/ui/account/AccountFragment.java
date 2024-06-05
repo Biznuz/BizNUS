@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.biznus.LoginActivity;
 import com.example.biznus.MainActivity;
 import com.example.biznus.R;
-import com.example.biznus.data.LoginRepository;
-import com.example.biznus.data.model.LoggedInUser;
 import com.example.biznus.databinding.FragmentAccountBinding;
-import com.example.biznus.ui.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ktx.Firebase;
 
 public class AccountFragment extends Fragment {
 
@@ -43,6 +43,7 @@ public class AccountFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
             }

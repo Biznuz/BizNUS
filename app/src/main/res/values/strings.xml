@@ -17,4 +17,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
+    <string name="click_to_login">Login now</string>
+    <string name="click_to_register">Register now</string>
+    <string name="username">Username</string>
 </resources>
