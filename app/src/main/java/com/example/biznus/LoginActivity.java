@@ -3,7 +3,10 @@ package com.example.biznus;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.loading);
         textView = findViewById(R.id.register);
 
+
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,26 +85,54 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(LoginActivity.this, "Enter username", Toast.LENGTH_SHORT).show();
-                    editTextEmail.setError("Enter username");
+//                if (TextUtils.isEmpty(email)) {
+//                    Toast.makeText(LoginActivity.this, "Enter username", Toast.LENGTH_SHORT).show();
+//                    editTextEmail.setError("Enter username");
+//                    editTextEmail.requestFocus();
+//                }
+//                if (TextUtils.isEmpty(password)) {
+//                    Toast.makeText(LoginActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
+//                    editTextPassword.setError("Enter password");
+//                    editTextPassword.requestFocus();
+//                }
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(LoginActivity.this, "Please re-enter email", Toast.LENGTH_SHORT).show();
+                    editTextEmail.setError("Valid email required");
                     editTextEmail.requestFocus();
+                } else {
+                    loginUser(email, password);
                 }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
-                    editTextPassword.setError("Enter password");
-                    editTextPassword.requestFocus();
-                }
-                loginUser(email, password);
-
-
             }
         });
+
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+                loginButton.setEnabled(!email.isEmpty() && password.length() >= 6);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // ignore
+            }
+        };
+
+        editTextEmail.addTextChangedListener(afterTextChangedListener);
+        editTextPassword.addTextChangedListener(afterTextChangedListener);
+
     }
 
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
