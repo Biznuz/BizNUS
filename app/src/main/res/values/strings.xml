@@ -20,4 +20,13 @@
     <string name="click_to_login">Login now</string>
     <string name="click_to_register">Register now</string>
     <string name="username">Username</string>
+    <string name="list">LIST</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string-array name="conditions">
+        <item>Choose Condition</item>
+        <item>Brand New</item>
+        <item>Like New</item>
+        <item>Well Used</item>
+    </string-array>
 </resources>
