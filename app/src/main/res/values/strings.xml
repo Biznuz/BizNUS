@@ -23,6 +23,7 @@
     <string name="list">LIST</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="Price">Price</string>
     <string-array name="conditions">
         <item>Choose Condition</item>
         <item>Brand New</item>
