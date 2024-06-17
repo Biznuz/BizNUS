@@ -90,7 +90,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/title"
             android:maxLines="5"
             android:textColor="@color/white"
@@ -102,7 +102,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/Price"
             android:textColor="@color/white"
             android:inputType="numberDecimal"
@@ -113,14 +113,16 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:id="@+id/condtionSpinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginTop="20dp">
 
         </Spinner>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/description"
             android:maxLines="5"
             android:textColor="@color/white"

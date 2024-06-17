@@ -18,8 +18,6 @@
         <activity
             android:name=".ListActivity"
             android:exported="false" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Theme.BizNUS"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
