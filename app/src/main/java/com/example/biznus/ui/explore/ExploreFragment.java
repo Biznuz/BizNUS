@@ -25,8 +25,6 @@ public class ExploreFragment extends Fragment {
         binding = FragmentExploreBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textExplore;
-        exploreViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
