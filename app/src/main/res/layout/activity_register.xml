@@ -22,7 +22,7 @@
             android:padding="20dp">
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/lister"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"

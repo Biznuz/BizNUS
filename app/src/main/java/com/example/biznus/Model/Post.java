@@ -1,50 +1,50 @@
 package com.example.biznus.Model;
 
 public class Post {
-    private String postTitle;
-    private String postImage;
-    private String postPrice;
-    private String postUser;
+    private String title;
+    private String listImage;
+    private String price;
+    private String lister;
 
-    public Post(String postTitle, String postImage, String postPrice, String postUser) {
-        this.postTitle = postTitle;
-        this.postImage = postImage;
-        this.postPrice = postPrice;
-        this.postUser = postUser;
+    public Post(String title, String listImage, String price, String lister) {
+        this.title = title;
+        this.listImage = listImage;
+        this.price = price;
+        this.lister = lister;
     }
 
     public Post() {
     }
 
-    public String getPostTitle() {
-        return postTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPostImage() {
-        return postImage;
+    public String getListImage() {
+        return listImage;
     }
 
-    public void setPostImage(String postImage) {
-        this.postImage = postImage;
+    public void setListImage(String listImage) {
+        this.listImage = listImage;
     }
 
-    public String getPostPrice() {
-        return postPrice;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPostPrice(String postPrice) {
-        this.postPrice = postPrice;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public String getPostUser() {
-        return postUser;
+    public String getLister() {
+        return lister;
     }
 
-    public void setPostUser(String postUser) {
-        this.postUser = postUser;
+    public void setLister(String lister) {
+        this.lister = lister;
     }
 }

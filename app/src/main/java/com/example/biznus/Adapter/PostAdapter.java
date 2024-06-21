@@ -1,7 +1,6 @@
 package com.example.biznus.Adapter;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContentValuesKt;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.biznus.Model.Post;
+import com.example.biznus.Model.User;
 import com.example.biznus.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +45,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Post post = mPost.get(position);
 
+        Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
+
+        if (post.getTitle().equals("")) {
+            holder.postTitle.setVisibility(View.GONE);
+        } else {
+            holder.postTitle.setVisibility(View.VISIBLE);
+            holder.postTitle.setText(post.getTitle());
+            holder.postPrice.setText("$" + post.getPrice());
+            holder.username.setText(post.getLister());
+        }
+
+        publisherInfo(holder.image_profile, holder.username, post.getLister());
     }
 
     @Override
@@ -61,29 +76,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             super(itemView);
 
             image_profile = itemView.findViewById(R.id.image_profile);
-            post_image = itemView.findViewById(R.id.post_image);
-            username = itemView.findViewById(R.id.username);
-            postPrice = itemView.findViewById(R.id.post_price);
-            postTitle = itemView.findViewById(R.id.post_title);
+            post_image = itemView.findViewById(R.id.listImage);
+            username = itemView.findViewById(R.id.lister);
+            postPrice = itemView.findViewById(R.id.price);
+            postTitle = itemView.findViewById(R.id.title);
         }
     }
 
     private void publisherInfo(ImageView image_profile, TextView username, String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                Glide.with(mContext).load(user.getImageurl()).into(image_profile);
+                User user = snapshot.getValue(User.class);
+                //Glide.with(mContext).load(user.getImageurl()).into(image_profile);
                 username.setText(user.getUsername());
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        })
+        });
     }
 }
