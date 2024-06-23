@@ -49,6 +49,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.rengwuxian.materialedittext:library:2.1.4")
     implementation(libs.activity)
     implementation("com.github.bumptech.glide:glide:4.8.0")
     implementation(libs.firebase.auth)
