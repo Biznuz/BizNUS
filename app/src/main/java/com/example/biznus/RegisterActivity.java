@@ -160,10 +160,10 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            //String userid = firebaseUser.getUid();
+                            String userid = firebaseUser.getUid();
 
                             // write to user data
-                            ReadWriteUserData writeUserData = new ReadWriteUserData(username);
+                            ReadWriteUserData writeUserData = new ReadWriteUserData(username, userid);
                             reference = FirebaseDatabase.getInstance().getReference("Registered Users");
                             reference.child(firebaseUser.getUid()).setValue(writeUserData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

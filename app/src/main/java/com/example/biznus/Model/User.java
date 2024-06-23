@@ -7,6 +7,9 @@ public class User {
     private String imageurl;
     private String bio;
 
+    public User() {
+    }
+
     public User(String id, String username, String fullname, String imageurl, String bio) {
         this.id = id;
         this.username = username;
@@ -32,6 +35,9 @@ public class User {
     }
 
     public String getUsername() {
+        if (this.username == null) {
+            return "lol";
+        }
         return username;
     }
 
