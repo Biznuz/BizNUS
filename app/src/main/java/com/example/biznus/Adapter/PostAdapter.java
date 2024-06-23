@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -71,6 +72,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ImageView image_profile, post_image, like;
         public TextView username, postPrice, postTitle, postDescription;
+        public RecyclerView recyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +84,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postPrice = itemView.findViewById(R.id.post_price);
             postTitle = itemView.findViewById(R.id.post_title);
             postDescription = itemView.findViewById(R.id.description);
+            recyclerView = itemView.findViewById(R.id.recycler_view);
         }
     }
 

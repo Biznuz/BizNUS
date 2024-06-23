@@ -9,10 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.biznus.Adapter.PostAdapter;
+import com.example.biznus.Decoration.Space;
 import com.example.biznus.R;
 import com.example.biznus.databinding.FragmentExploreBinding;
 import com.example.biznus.Model.Post;
@@ -47,10 +49,9 @@ public class ExploreFragment extends Fragment {
 
         recyclerView = view.findViewById((R.id.recycler_view));
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new Space(getContext(), 30));
         postLists = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), postLists);
         recyclerView.setAdapter(postAdapter);
