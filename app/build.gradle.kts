@@ -49,7 +49,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
     implementation("de.hdodenhof:circleimageview:3.1.0")
-//    implementation(libs.activity)
+    implementation(libs.activity)
     implementation("com.github.bumptech.glide:glide:4.8.0")
     implementation(libs.firebase.auth)
     implementation(libs.firebase.storage)

@@ -56,7 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.postTitle.setVisibility(View.VISIBLE);
             holder.postTitle.setText(post.getTitle());
             holder.postPrice.setText("$" + post.getPrice());
-            holder.username.setText(post.getLister());
+            holder.username.setText(firebaseUser.getUid());
         }
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
@@ -67,19 +67,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mPost.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView image_profile, post_image;
-        public TextView username, postPrice, postTitle;
+        public ImageView image_profile, post_image, like;
+        public TextView username, postPrice, postTitle, postDescription;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image_profile = itemView.findViewById(R.id.image_profile);
             post_image = itemView.findViewById(R.id.listImage);
+            like = itemView.findViewById(R.id.like);
             username = itemView.findViewById(R.id.lister);
             postPrice = itemView.findViewById(R.id.price);
             postTitle = itemView.findViewById(R.id.title);
+            postDescription = itemView.findViewById(R.id.description);
         }
     }
 

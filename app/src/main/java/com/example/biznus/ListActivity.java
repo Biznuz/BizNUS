@@ -60,7 +60,6 @@ public class ListActivity extends AppCompatActivity {
 
     Uri imageUri;
     String myUrl = "";
-    StorageTask uploadTask;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     ImageView close, image;
@@ -134,9 +133,6 @@ public class ListActivity extends AppCompatActivity {
 
         adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
         conditionSpinner.setAdapter(adapter);
-
-
-        // TODO: upload to database
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override

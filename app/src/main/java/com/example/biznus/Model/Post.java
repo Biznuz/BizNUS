@@ -41,7 +41,7 @@ public class Post {
     }
 
     public String getLister() {
-        return lister;
+        return this.lister;
     }
 
     public void setLister(String lister) {

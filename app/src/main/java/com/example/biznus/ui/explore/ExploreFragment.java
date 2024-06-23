@@ -55,12 +55,12 @@ public class ExploreFragment extends Fragment {
         postAdapter = new PostAdapter(getContext(), postLists);
         recyclerView.setAdapter(postAdapter);
 
-        readPosts();
+        readLists();
 
         return view;
     }
 
-    private void readPosts() {
+    private void readLists() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
