@@ -2,24 +2,35 @@ package com.example.biznus.ui.account;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.biznus.Adapter.MyListingsAdapter;
 import com.example.biznus.EditProfileActivity;
 import com.example.biznus.LoginActivity;
 import com.example.biznus.MainActivity;
@@ -38,11 +49,20 @@ import com.google.firebase.ktx.Firebase;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class AccountFragment extends Fragment {
 
     ImageView profileImage, options;
     TextView lists, followers, following, fullname, bio, username;
     Button edit_profile;
+
+    RecyclerView recyclerView;
+    MyListingsAdapter myListingsAdapter;
+    List<Post> postList;
 
     FirebaseUser firebaseUser;
     String profileId;
@@ -70,9 +90,18 @@ public class AccountFragment extends Fragment {
         listings = view.findViewById(R.id.my_listings);
         reviews = view.findViewById(R.id.my_reviews);
 
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        postList = new ArrayList<>();
+        myListingsAdapter = new MyListingsAdapter(getContext(), postList);
+        recyclerView.setAdapter(myListingsAdapter);
+
         userInfo();
         getFollowers();
         getMyListings();
+        myListings();
 
         if (profileId.equals(firebaseUser.getUid())) {
             edit_profile.setText("Edit Profile");
@@ -103,17 +132,26 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
-        // logout button
-        Button logoutButton = (Button) view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
+                PopupMenu popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.account_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.logoutButton) {
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
+
         return view;
 
     }
@@ -214,6 +252,32 @@ public class AccountFragment extends Fragment {
             }
         });
     }
+
+    private void myListings() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Post post = snapshot1.getValue(Post.class);
+                    if (post.getLister().equals(profileId)) {
+                        postList.add(post);
+                    }
+                }
+                Collections.reverse(postList);
+                myListingsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    
 
 //    @Override
 //    public void onDestroyView() {

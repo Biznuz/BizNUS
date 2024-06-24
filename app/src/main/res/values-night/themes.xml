@@ -14,6 +14,11 @@
         <item name="android:statusBarColor">@color/moonstone</item>
         <!-- Customize your theme here. -->
         <item name="colorSurface">@color/darkblue</item>
+        <item name="android:itemTextAppearance">@style/account_menu</item>
+    </style>
+
+    <style name="account_menu" parent="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header">
+        <item name="android:popupBackground">@color/white</item>
     </style>
 <!--     Base application theme. -->
 </resources>

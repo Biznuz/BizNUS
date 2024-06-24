@@ -57,7 +57,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.postTitle.setVisibility(View.VISIBLE);
             holder.postTitle.setText(post.getTitle());
             holder.postPrice.setText("$" + post.getPrice());
-            //holder.username.setText(post.getLister());
+            holder.postCondition.setText(post.getCondition());
+            holder.username.setText(post.getLister());
         }
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
@@ -71,7 +72,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView image_profile, post_image, like;
-        public TextView username, postPrice, postTitle, postDescription;
+        public TextView username, postPrice, postTitle, postDescription, postCondition;
         public RecyclerView recyclerView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -84,6 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postPrice = itemView.findViewById(R.id.post_price);
             postTitle = itemView.findViewById(R.id.post_title);
             postDescription = itemView.findViewById(R.id.description);
+            postCondition = itemView.findViewById(R.id.condition);
             recyclerView = itemView.findViewById(R.id.recycler_view);
         }
     }
@@ -95,7 +97,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                //Glide.with(mContext).load(user.getImageurl()).into(image_profile);
+                if (user.getImageurl() == null) {
+                    Glide.with(mContext).load(R.mipmap.ic_launcher).into(image_profile);
+                } else {
+                    Glide.with(mContext).load(user.getImageurl()).into(image_profile);
+                }
                 username.setText(user.getUsername());
             }
 

@@ -60,26 +60,6 @@
                     android:textSize="12sp"
                     android:textStyle="italic" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_profile"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="40dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_toEndOf="@+id/image_profile"
-                    android:text="username"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
                 <ImageView
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
@@ -90,6 +70,7 @@
             </RelativeLayout>
 
         </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -5,12 +5,14 @@ public class Post {
     private String listImage;
     private String price;
     private String lister;
+    private String condition;
 
-    public Post(String title, String listImage, String price, String lister) {
+    public Post(String title, String listImage, String price, String lister, String condition) {
         this.title = title;
         this.listImage = listImage;
         this.price = price;
         this.lister = lister;
+        this.condition = condition;
     }
 
     public Post() {
@@ -46,5 +48,13 @@ public class Post {
 
     public void setLister(String lister) {
         this.lister = lister;
+    }
+
+    public String getCondition() {
+        return this.condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }
