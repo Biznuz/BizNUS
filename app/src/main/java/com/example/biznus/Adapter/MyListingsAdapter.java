@@ -41,15 +41,10 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
         Post post = mPost.get(position);
 
         Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
+        holder.postTitle.setText(post.getTitle());
+        holder.postPrice.setText("$" + post.getPrice());
+        holder.postCondition.setText(post.getCondition());
 
-        if (post.getTitle().equals("")) {
-            holder.postTitle.setVisibility(View.GONE);
-        } else {
-            holder.postTitle.setVisibility(View.VISIBLE);
-            holder.postTitle.setText(post.getTitle());
-            holder.postPrice.setText("$" + post.getPrice());
-            holder.postCondition.setText(post.getCondition());
-        }
     }
 
     @Override

@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Adapter.MyListingsAdapter;
+import com.example.biznus.Decoration.Space;
 import com.example.biznus.EditProfileActivity;
 import com.example.biznus.LoginActivity;
 import com.example.biznus.MainActivity;
@@ -94,14 +95,17 @@ public class AccountFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new Space(getContext(), 30));
         postList = new ArrayList<>();
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
 
+        myListings();
+
         userInfo();
         getFollowers();
         getMyListings();
-        myListings();
+
 
         if (profileId.equals(firebaseUser.getUid())) {
             edit_profile.setText("Edit Profile");
@@ -238,7 +242,7 @@ public class AccountFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Post post = snapshot1.getValue(Post.class);
-                    if (post.getLister().equals(profileId)) {
+                    if (post.getLister().equals(firebaseUser.getUid())) {
                         i++;
                     }
                 }
@@ -261,7 +265,7 @@ public class AccountFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Post post = snapshot1.getValue(Post.class);
-                    if (post.getLister().equals(profileId)) {
+                    if (post.getLister().equals(firebaseUser.getUid())) {
                         postList.add(post);
                     }
                 }
