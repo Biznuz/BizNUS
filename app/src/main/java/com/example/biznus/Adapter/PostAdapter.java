@@ -65,8 +65,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
 
         // post.getId() is null
-        isLiked(post.getListId(), holder.like);
-        totalLikes(holder.likes, post.getListId());
+//        isLiked(post.getListId(), holder.like);
+//        totalLikes(holder.likes, post.getListId());
 
 
 
@@ -111,29 +111,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    private void isLiked(String listId, ImageView imageView) {
-        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Likes")
-                .child(listId);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(firebaseUser1.getUid()).exists()) {
-                    imageView.setImageResource(R.drawable.baseline_favorite_24);
-                    imageView.setTag("liked");
-                } else {
-                    imageView.setImageResource(R.drawable.ic_favorite);
-                    imageView.setTag("like");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    private void isLiked(String listId, ImageView imageView) {
+//        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+//                .child("Likes")
+//                .child(listId);
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.child(firebaseUser1.getUid()).exists()) {
+//                    imageView.setImageResource(R.drawable.baseline_favorite_24);
+//                    imageView.setTag("liked");
+//                } else {
+//                    imageView.setImageResource(R.drawable.ic_favorite);
+//                    imageView.setTag("like");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void totalLikes(TextView likes, String listId) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()

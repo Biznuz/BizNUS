@@ -1,6 +1,8 @@
 package com.example.biznus.ui.explore;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +61,22 @@ public class ExploreFragment extends Fragment {
         search_bar = view.findViewById(R.id.search_bar);
 
         readLists();
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchPosts(s.toString().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
     }
 
@@ -70,7 +87,13 @@ public class ExploreFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postLists.clear();
+                for (DataSnapshot snapshots : snapshot.getChildren()) {
+                    Post post = snapshots.getValue(Post.class);
+                    postLists.add(post);
+                }
 
+                postAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -85,12 +108,19 @@ public class ExploreFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postLists.clear();
-                for (DataSnapshot snapshots : snapshot.getChildren()) {
-                    Post post = snapshots.getValue(Post.class);
-                    postLists.add(post);
+                if (search_bar.getText().toString().equals("")) {
+                    postLists.clear();
+                    for (DataSnapshot snapshots : snapshot.getChildren()) {
+                        Post post = snapshots.getValue(Post.class);
+                        postLists.add(post);
+                    }
+
+                    postAdapter.notifyDataSetChanged();
                 }
-                postAdapter.notifyDataSetChanged();
+//                else {
+//                    postLists.clear();
+//                    searchPosts(search_bar.getText().toString());
+//                }
             }
 
             @Override

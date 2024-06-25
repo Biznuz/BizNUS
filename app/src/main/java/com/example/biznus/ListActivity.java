@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,7 @@ import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -69,15 +71,11 @@ public class ListActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     Spinner conditionSpinner;
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings");
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
-
 
         close = findViewById(R.id.close);
         image = findViewById(R.id.image);
@@ -107,8 +105,6 @@ public class ListActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, conditionList) {
             @Override
@@ -176,8 +172,6 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void uploadImage() {
@@ -247,13 +241,15 @@ public class ListActivity extends AppCompatActivity {
         intent.setType("image/");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 100);
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100 && data != null && data.getData() != null) {
+        if (requestCode ==  100 && data != null && data.getData() != null) {
             imageUri = data.getData();
             image.setImageURI(imageUri);
         }
