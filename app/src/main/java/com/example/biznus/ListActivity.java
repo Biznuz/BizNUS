@@ -197,10 +197,10 @@ public class ListActivity extends AppCompatActivity {
                         myUrl = uri.toString();
                         image.setImageURI(null);
 
-                        String listID = reference.push().getKey();
+                        String listId = reference.push().getKey();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("listID", listID);
+                        hashMap.put("listId", listId);
                         hashMap.put("listImage", myUrl);
                         hashMap.put("title", editTextTitle.getText().toString());
                         hashMap.put("price", editTextPrice.getText().toString());
@@ -208,7 +208,7 @@ public class ListActivity extends AppCompatActivity {
                         hashMap.put("condition", conditionSpinner.getSelectedItem());
                         hashMap.put("lister", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                        reference.child(listID).setValue(hashMap);
+                        reference.child(listId).setValue(hashMap);
 
                         Toast.makeText(ListActivity.this, "Successfully Listed", Toast.LENGTH_SHORT).show();
 

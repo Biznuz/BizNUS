@@ -62,6 +62,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
+
+
+        // post.getId() is null
+        isLiked(post.getListId(), holder.like);
+        totalLikes(holder.likes, post.getListId());
+
+
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.like.getTag().equals("liked")) {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListId())
+                            .child(firebaseUser.getUid()).setValue(true);
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListId())
+                            .child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
     }
 
     @Override
@@ -72,7 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView image_profile, post_image, like;
-        public TextView username, postPrice, postTitle, postDescription, postCondition;
+        public TextView username, postPrice, postTitle, postDescription, postCondition, likes;
         public RecyclerView recyclerView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -81,6 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             image_profile = itemView.findViewById(R.id.image_profile);
             post_image = itemView.findViewById(R.id.post_image);
             like = itemView.findViewById(R.id.like);
+            likes = itemView.findViewById(R.id.likes);
             username = itemView.findViewById(R.id.username);
             postPrice = itemView.findViewById(R.id.post_price);
             postTitle = itemView.findViewById(R.id.post_title);
@@ -88,6 +109,46 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postCondition = itemView.findViewById(R.id.condition);
             recyclerView = itemView.findViewById(R.id.recycler_view);
         }
+    }
+
+    private void isLiked(String listId, ImageView imageView) {
+        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Likes")
+                .child(listId);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(firebaseUser1.getUid()).exists()) {
+                    imageView.setImageResource(R.drawable.baseline_favorite_24);
+                    imageView.setTag("liked");
+                } else {
+                    imageView.setImageResource(R.drawable.ic_favorite);
+                    imageView.setTag("like");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void totalLikes(TextView likes, String listId) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Likes").child(listId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                likes.setText(snapshot.getChildrenCount() + "likes");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void publisherInfo(ImageView image_profile, TextView username, String userid) {
