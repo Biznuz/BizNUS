@@ -61,6 +61,8 @@
 
             <EditText
                 android:id="@+id/search_bar"
+                app:actionViewClass="android.widget.SearchView"
+                app:showAsAction="ifRoom|withText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
@@ -75,6 +77,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
