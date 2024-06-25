@@ -80,6 +80,19 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="107dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_toEndOf="@+id/image_profile"
+                    android:text="15"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
