@@ -69,7 +69,7 @@ public class ExploreFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchPosts(s.toString().toLowerCase());
+                searchPosts(s.toString());
             }
 
             @Override
@@ -117,10 +117,6 @@ public class ExploreFragment extends Fragment {
 
                     postAdapter.notifyDataSetChanged();
                 }
-//                else {
-//                    postLists.clear();
-//                    searchPosts(search_bar.getText().toString());
-//                }
             }
 
             @Override

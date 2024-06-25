@@ -1,15 +1,15 @@
 package com.example.biznus.Model;
 
 public class Post {
-    private String listId;
+    private String listID;
     private String title;
     private String listImage;
     private String price;
     private String lister;
     private String condition;
 
-    public Post(String listId, String title, String listImage, String price, String lister, String condition) {
-        this.listId = listId;
+    public Post(String listID, String title, String listImage, String price, String lister, String condition) {
+        this.listID = listID;
         this.title = title;
         this.listImage = listImage;
         this.price = price;
@@ -20,9 +20,9 @@ public class Post {
     public Post() {
     }
 
-    public String getListId() { return listId; }
+    public String getListID() { return listID; }
 
-    public void setListId(String listId) { this.listId = listId; }
+    public void setListID(String listID) { this.listID = listID; }
     public String getTitle() {
         return title;
     }

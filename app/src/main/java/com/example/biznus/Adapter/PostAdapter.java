@@ -1,6 +1,7 @@
 package com.example.biznus.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -59,25 +59,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.postPrice.setText("$" + post.getPrice());
             holder.postCondition.setText(post.getCondition());
             holder.username.setText(post.getLister());
+            //Log.d("testing", "post: " + post.getListID());
         }
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
 
-
-        // post.getId() is null
-//        isLiked(post.getListId(), holder.like);
-//        totalLikes(holder.likes, post.getListId());
-
-
+        isLiked(post.getListID(), holder.like);
+        totalLikes(holder.likes, post.getListID());
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.like.getTag().equals("liked")) {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListId())
+                if (holder.like.getTag().equals("like")) {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListID())
                             .child(firebaseUser.getUid()).setValue(true);
                 } else {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListId())
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getListID())
                             .child(firebaseUser.getUid()).removeValue();
                 }
             }
@@ -111,29 +108,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-//    private void isLiked(String listId, ImageView imageView) {
-//        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-//                .child("Likes")
-//                .child(listId);
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.child(firebaseUser1.getUid()).exists()) {
-//                    imageView.setImageResource(R.drawable.baseline_favorite_24);
-//                    imageView.setTag("liked");
-//                } else {
-//                    imageView.setImageResource(R.drawable.ic_favorite);
-//                    imageView.setTag("like");
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+    private void isLiked(String listID, final ImageView imageView) {
+        final FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Likes")
+                .child(listID);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(firebaseUser1.getUid()).exists()) {
+                    imageView.setImageResource(R.drawable.baseline_favorite_24);
+                    imageView.setTag("liked");
+                } else {
+                    imageView.setImageResource(R.drawable.ic_favorite);
+                    imageView.setTag("like");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void totalLikes(TextView likes, String listId) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
