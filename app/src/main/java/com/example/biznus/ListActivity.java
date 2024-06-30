@@ -194,7 +194,7 @@ public class ListActivity extends AppCompatActivity {
                         String listId = reference.push().getKey();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("listId", listId);
+                        hashMap.put("listID", listId);
                         hashMap.put("listImage", myUrl);
                         hashMap.put("title", editTextTitle.getText().toString());
                         hashMap.put("price", editTextPrice.getText().toString());

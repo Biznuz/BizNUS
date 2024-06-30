@@ -40,9 +40,6 @@ public class ExploreFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> postLists;
 
-    ArrayAdapter<String> searchAdapter;
-    ArrayList<String> titleList;
-
     EditText search_bar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

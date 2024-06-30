@@ -91,7 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("profileId", post.getLister());
+                editor.putString("lister", post.getLister());
                 editor.apply();
 
 
@@ -104,7 +104,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("profileId", post.getLister());
+                editor.putString("lister", post.getLister());
                 editor.apply();
 
                 ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
@@ -176,42 +176,46 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private void isLiked(String listID, final ImageView imageView) {
         final FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Likes")
-                .child(listID);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(firebaseUser1.getUid()).exists()) {
-                    imageView.setImageResource(R.drawable.baseline_favorite_24);
-                    imageView.setTag("liked");
-                } else {
-                    imageView.setImageResource(R.drawable.ic_favorite);
-                    imageView.setTag("like");
+        if (listID != null) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child("Likes")
+                    .child(listID);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child(firebaseUser1.getUid()).exists()) {
+                        imageView.setImageResource(R.drawable.baseline_favorite_24);
+                        imageView.setTag("liked");
+                    } else {
+                        imageView.setImageResource(R.drawable.ic_favorite);
+                        imageView.setTag("like");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void totalLikes(TextView likes, String listId) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Likes").child(listId);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                likes.setText(snapshot.getChildrenCount() + "likes");
-            }
+        if (listId != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                    .child("Likes").child(listId);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    likes.setText(snapshot.getChildrenCount() + "");
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void publisherInfo(ImageView image_profile, TextView username, String userid) {
