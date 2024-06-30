@@ -1,6 +1,7 @@
 package com.example.biznus.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Model.Post;
 import com.example.biznus.R;
+import com.example.biznus.ui.ListingDetailFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.checkerframework.checker.units.qual.N;
@@ -44,6 +47,17 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
         holder.postTitle.setText(post.getTitle());
         holder.postPrice.setText("$" + post.getPrice());
         holder.postCondition.setText(post.getCondition());
+
+        holder.post_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("postid", post.getListID());
+                editor.apply();
+
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ListingDetailFragment()).commit();
+            }
+        });
 
     }
 

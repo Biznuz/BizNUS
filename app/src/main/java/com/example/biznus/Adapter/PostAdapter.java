@@ -1,6 +1,8 @@
 package com.example.biznus.Adapter;
 
+import android.accounts.Account;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Model.Post;
 import com.example.biznus.Model.User;
 import com.example.biznus.R;
+import com.example.biznus.ui.ListingDetailFragment;
+import com.example.biznus.ui.account.AccountFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +54,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Post post = mPost.get(position);
 
-        Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
+        if (post != null) {
+            Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
+        } else {
+            Log.e("PostAdapter", "Post object is null at position: " + position);
+        }
 
         if (post.getTitle().equals("")) {
             holder.postTitle.setVisibility(View.GONE);
@@ -66,6 +75,41 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         isLiked(post.getListID(), holder.like);
         totalLikes(holder.likes, post.getListID());
+
+        holder.image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("profileid", post.getLister());
+                editor.apply();
+
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
+            }
+        });
+
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("profileid", post.getLister());
+                editor.apply();
+
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
+            }
+        });
+
+        holder.post_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("postid", post.getListID());
+                editor.apply();
+
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ListingDetailFragment()).commit();
+            }
+        });
+
+
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
