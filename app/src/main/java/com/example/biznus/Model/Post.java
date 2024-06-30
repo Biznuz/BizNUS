@@ -7,17 +7,27 @@ public class Post {
     private String price;
     private String lister;
     private String condition;
+    private String description;
 
-    public Post(String listID, String title, String listImage, String price, String lister, String condition) {
+    public Post(String listID, String title, String listImage, String price, String lister, String condition, String description) {
         this.listID = listID;
         this.title = title;
         this.listImage = listImage;
         this.price = price;
         this.lister = lister;
         this.condition = condition;
+        this.description = description;
     }
 
     public Post() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getListID() { return listID; }

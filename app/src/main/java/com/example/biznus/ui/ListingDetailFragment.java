@@ -1,5 +1,6 @@
 package com.example.biznus.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,14 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.biznus.Adapter.ListDetailAdapter;
 import com.example.biznus.Adapter.PostAdapter;
 import com.example.biznus.MainActivity;
 import com.example.biznus.Model.Post;
 import com.example.biznus.R;
 import com.example.biznus.ui.account.AccountFragment;
 import com.example.biznus.ui.explore.ExploreFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.api.Distribution;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +43,7 @@ public class ListingDetailFragment extends Fragment {
 
     String listID;
     private RecyclerView recyclerView;
-    private PostAdapter postAdapter;
+    private ListDetailAdapter listDetailAdapter;
     private List<Post> list;
     private ImageView back_button;
 
@@ -63,8 +65,8 @@ public class ListingDetailFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(), list);
-        recyclerView.setAdapter(postAdapter);
+        listDetailAdapter = new ListDetailAdapter(getContext(), list);
+        recyclerView.setAdapter(listDetailAdapter);
 
         readPosts();
 
@@ -89,7 +91,7 @@ public class ListingDetailFragment extends Fragment {
                 Post post = snapshot.getValue(Post.class);
                 list.add(post);
 
-                postAdapter.notifyDataSetChanged();
+                listDetailAdapter.notifyDataSetChanged();
             }
 
             @Override
