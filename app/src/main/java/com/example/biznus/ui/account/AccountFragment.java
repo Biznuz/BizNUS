@@ -96,7 +96,7 @@ public class AccountFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new Space(getContext(), 30));
+        recyclerView.addItemDecoration(new Space(getContext(), 10));
         postList = new ArrayList<>();
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
@@ -209,6 +209,7 @@ public class AccountFragment extends Fragment {
     private void getFollowers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(profileId).child("followers");
+        followers.setText("0");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,6 +224,7 @@ public class AccountFragment extends Fragment {
 
         DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(profileId).child("following");
+        following.setText("0");
         reference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

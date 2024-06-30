@@ -17,6 +17,12 @@ import com.example.biznus.Model.Post;
 import com.example.biznus.R;
 import com.example.biznus.ui.ListingDetailFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.checkerframework.checker.units.qual.N;
 
@@ -48,6 +54,12 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
         holder.postPrice.setText("$" + post.getPrice());
         holder.postCondition.setText(post.getCondition());
 
+        if (post.getListID() != null) {
+            //isLiked(post.getListID(), holder.like);
+            holder.like.setImageResource(R.drawable.baseline_favorite_24);
+            totalLikes(holder.likes, post.getListID());
+        }
+
         holder.post_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +80,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView post_image, like;
-        public TextView postPrice, postTitle, postCondition;
+        public TextView postPrice, postTitle, postCondition, likes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +89,51 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
             postPrice = itemView.findViewById(R.id.post_price);
             postTitle = itemView.findViewById(R.id.post_title);
             postCondition = itemView.findViewById(R.id.condition);
+            likes = itemView.findViewById(R.id.likes);
+        }
+    }
+
+    private void isLiked(String listID, final ImageView imageView) {
+        final FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (listID != null) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child("Likes")
+                    .child(listID);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child(firebaseUser1.getUid()).exists()) {
+                        imageView.setImageResource(R.drawable.baseline_favorite_24);
+                        imageView.setTag("liked");
+                    } else {
+                        imageView.setImageResource(R.drawable.ic_favorite);
+                        imageView.setTag("like");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    private void totalLikes(TextView likes, String listId) {
+        if (listId != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                    .child("Likes").child(listId);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    likes.setText(snapshot.getChildrenCount() + "");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 }

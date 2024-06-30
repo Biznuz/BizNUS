@@ -23,6 +23,8 @@ import com.example.biznus.Model.Post;
 import com.example.biznus.R;
 import com.example.biznus.ui.account.AccountFragment;
 import com.example.biznus.ui.explore.ExploreFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.api.Distribution;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +49,8 @@ public class ListingDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listing_detail, container, false);
+        BottomNavigationView navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.GONE);
 
         back_button = view.findViewById(R.id.back_button);
 
