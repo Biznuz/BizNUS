@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.collections.ArrayDeque;
@@ -47,7 +48,7 @@ public class ListingDetailFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        list = new ArrayDeque<>();
+        list = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), list);
         recyclerView.setAdapter(postAdapter);
 

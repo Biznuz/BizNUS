@@ -27,7 +27,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:text="Listing"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
             
             </RelativeLayout>
 

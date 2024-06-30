@@ -53,6 +53,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccountFragment extends Fragment {
@@ -127,6 +128,7 @@ public class AccountFragment extends Fragment {
                             .child("following").child(profileId).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
+                    addNotifications();
                 } else if (button.equals("following")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
                             .child("following").child(profileId).removeValue();
@@ -278,6 +280,17 @@ public class AccountFragment extends Fragment {
 
             }
         });
+    }
+
+    private void addNotifications() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(profileId);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", firebaseUser.getUid());
+        hashMap.put("notifs", "started following you");
+        hashMap.put("listID", "");
+        hashMap.put("islist", false);
+
+        reference.push().setValue(hashMap);
     }
 
 
