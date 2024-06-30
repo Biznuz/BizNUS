@@ -20,14 +20,23 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                
+
                 <TextView
+                    android:id="@+id/listing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Listing"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Listing"
-                    android:textColor="@color/white"/>
+                    android:layout_marginLeft="35dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_arrow_back_24"
+                    android:id="@+id/back_button"/>
+
             
             </RelativeLayout>
 

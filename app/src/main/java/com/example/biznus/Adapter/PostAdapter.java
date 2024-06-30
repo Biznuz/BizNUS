@@ -1,5 +1,7 @@
 package com.example.biznus.Adapter;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.accounts.Account;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +26,7 @@ import com.example.biznus.Model.User;
 import com.example.biznus.R;
 import com.example.biznus.ui.ListingDetailFragment;
 import com.example.biznus.ui.account.AccountFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -74,8 +81,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
 
-        isLiked(post.getListID(), holder.like);
-        totalLikes(holder.likes, post.getListID());
+        if (post.getListID() != null) {
+            isLiked(post.getListID(), holder.like);
+            totalLikes(holder.likes, post.getListID());
+        }
+
 
         holder.image_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
                 editor.putString("profileId", post.getLister());
                 editor.apply();
+
+
 
                 ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
             }
@@ -106,7 +118,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 editor.putString("listID", post.getListID());
                 editor.apply();
 
-                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ListingDetailFragment()).commit();
+                FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, ListingDetailFragment.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack("Listing Detail") // Name can be null
+                        .commit();
+
+
+//                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ListingDetailFragment()).commit();
             }
         });
 
