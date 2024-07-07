@@ -1,7 +1,7 @@
 package com.example.biznus.Model;
 
 public class User {
-    private String id;
+    private String userid;
     private String username;
     private String fullname;
     private String imageurl;
@@ -11,19 +11,19 @@ public class User {
     }
 
     public User(String id, String username, String fullname, String imageurl, String bio) {
-        this.id = id;
+        this.userid = id;
         this.username = username;
         this.fullname = fullname;
         this.imageurl = imageurl;
         this.bio = bio;
     }
 
-    public String getId() {
-        return id;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getImageurl() {
@@ -35,9 +35,6 @@ public class User {
     }
 
     public String getUsername() {
-        if (this.username == null) {
-            return "lol";
-        }
         return username;
     }
 

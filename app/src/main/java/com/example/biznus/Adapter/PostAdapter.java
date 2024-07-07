@@ -1,6 +1,7 @@
 package com.example.biznus.Adapter;
 
 import static android.app.PendingIntent.getActivity;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.accounts.Account;
 import android.content.Context;
@@ -94,11 +95,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 //                editor.putString("lister", post.getLister());
 //                editor.apply();
 //
+//                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.container, new AccountFragment())
+//                        .commit();
 //
-//
-//                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
 //            }
 //        });
+
+        holder.image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                editor.putString("userid", post.getLister());
+                editor.apply();
+                //Log.e("image_profile", "" + editor.());
+
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container,
+                        new AccountFragment()).commit();
+            }
+        });
 
 //        holder.username.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -114,7 +129,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.post_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                 editor.putString("listID", post.getListID());
                 editor.apply();
 
