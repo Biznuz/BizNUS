@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class RegisterActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword, editTextUsername;
@@ -172,6 +174,11 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // send verification email
                                         firebaseUser.sendEmailVerification();
+                                        HashMap<String, Object> hashMap = new HashMap<>();
+                                        hashMap.put("fullname", "");
+                                        hashMap.put("bio", "");
+                                        hashMap.put("imageurl", "https://png.pngtree.com/element_our/20190531/ourmid/pngtree-android-icon-image_1288986.jpg");
+                                        reference.child(firebaseUser.getUid()).updateChildren(hashMap);
                                         Toast.makeText(RegisterActivity.this, "Account created",
                                                 Toast.LENGTH_SHORT).show();
                                         Intent i = new Intent(getApplicationContext(), MainActivity.class);

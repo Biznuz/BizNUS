@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

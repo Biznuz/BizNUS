@@ -23,7 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        getToken();
 
         if (user == null) {
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -67,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private  void getToken() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
+    }
+
+    private void updateToken(String token) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(user.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("FCMtoken", token);
+        reference.updateChildren(hashMap);
+    }
+
 
 
 }

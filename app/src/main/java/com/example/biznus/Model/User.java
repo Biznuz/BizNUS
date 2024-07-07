@@ -1,29 +1,41 @@
 package com.example.biznus.Model;
 
 public class User {
-    private String id;
+    private String userid;
     private String username;
     private String fullname;
     private String imageurl;
     private String bio;
+    private String FCMtoken;
 
-    public User() {
-    }
+    // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    public User() {}
 
-    public User(String id, String username, String fullname, String imageurl, String bio) {
-        this.id = id;
+    // Full constructor
+    public User(String userid, String username, String fullname, String imageurl, String bio, String FCMtoken) {
+        this.userid = userid;
         this.username = username;
         this.fullname = fullname;
         this.imageurl = imageurl;
         this.bio = bio;
+        this.FCMtoken = FCMtoken;
+    }
+
+    // Getters and setters with default values
+    public String getToken() {
+        return FCMtoken != null ? FCMtoken : "";
+    }
+
+    public void setToken(String token) {
+        this.FCMtoken = token;
     }
 
     public String getId() {
-        return id;
+        return userid != null ? userid : "";
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.userid = id;
     }
 
     public String getImageurl() {
@@ -35,10 +47,7 @@ public class User {
     }
 
     public String getUsername() {
-        if (this.username == null) {
-            return "lol";
-        }
-        return username;
+        return username != null ? username : "";
     }
 
     public void setUsername(String username) {
@@ -46,7 +55,7 @@ public class User {
     }
 
     public String getFullname() {
-        return fullname;
+        return fullname != null ? fullname : "";
     }
 
     public void setFullname(String fullname) {
@@ -54,7 +63,7 @@ public class User {
     }
 
     public String getBio() {
-        return bio;
+        return bio != null ? bio : "";
     }
 
     public void setBio(String bio) {

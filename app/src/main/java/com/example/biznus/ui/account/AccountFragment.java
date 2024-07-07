@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,6 +102,7 @@ public class AccountFragment extends Fragment {
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
 
+
         myListings();
 
         userInfo();
@@ -148,6 +150,9 @@ public class AccountFragment extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.logoutButton) {
                             FirebaseAuth.getInstance().signOut();
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users")
+                                    .child(firebaseUser.getUid()).child("FCMtoken");
+                            reference.removeValue();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                             return true;
                         }

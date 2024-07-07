@@ -1,5 +1,6 @@
 package com.example.biznus.ui.explore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.biznus.Adapter.PostAdapter;
 import com.example.biznus.Decoration.Space;
 import com.example.biznus.R;
+import com.example.biznus.UsersActivity;
 import com.example.biznus.databinding.FragmentExploreBinding;
 import com.example.biznus.Model.Post;
 import com.google.firebase.database.DataSnapshot;
@@ -39,12 +42,15 @@ public class ExploreFragment extends Fragment {
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postLists;
+    private ImageView chat;
 
     EditText search_bar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
+
+        chat = view.findViewById(R.id.chat);
 
         recyclerView = view.findViewById((R.id.recycler_view));
         recyclerView.setHasFixedSize(true);
@@ -74,6 +80,14 @@ public class ExploreFragment extends Fragment {
 
             }
         });
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), UsersActivity.class);
+                startActivity(i);
+            }
+        });
         return view;
     }
 
@@ -84,6 +98,8 @@ public class ExploreFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists())
+                    return;
                 postLists.clear();
                 for (DataSnapshot snapshots : snapshot.getChildren()) {
                     Post post = snapshots.getValue(Post.class);
@@ -105,6 +121,8 @@ public class ExploreFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists())
+                    return;
                 if (search_bar.getText().toString().equals("")) {
                     postLists.clear();
                     for (DataSnapshot snapshots : snapshot.getChildren()) {

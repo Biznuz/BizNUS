@@ -53,7 +53,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private StorageTask uploadTask;
     StorageReference storageReference;
 
-    // TODO: fix the no image selected error
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

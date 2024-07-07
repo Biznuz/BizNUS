@@ -38,6 +38,7 @@
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="10dp"
+                    android:id="@+id/chat"
                     android:src="@drawable/baseline_all_inbox_24">
 
                 </ImageView>
