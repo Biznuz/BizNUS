@@ -79,7 +79,7 @@ public class AccountFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        profileId = prefs.getString("profileId", "none");
+        profileId = prefs.getString("userid", "none");
 
         profileImage = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
@@ -104,7 +104,6 @@ public class AccountFragment extends Fragment {
 
 
         myListings();
-
         userInfo();
         getFollowers();
         getMyListings();
@@ -113,6 +112,7 @@ public class AccountFragment extends Fragment {
         if (profileId.equals(firebaseUser.getUid())) {
             edit_profile.setText("Edit Profile");
         } else {
+            edit_profile.setText("Test");
             checkFollow();
             reviews.setVisibility(View.GONE);
         }
@@ -168,7 +168,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void userInfo() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(profileId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -182,6 +182,14 @@ public class AccountFragment extends Fragment {
                 username.setText(user.getUsername());
                 fullname.setText(user.getFullname());
                 bio.setText(user.getBio());
+
+                if (!profileId.equals(firebaseUser.getUid())) {
+                    SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.remove("userid");
+                    editor.putString("userid", firebaseUser.getUid());
+                    editor.commit();
+                }
             }
 
             @Override
@@ -251,7 +259,7 @@ public class AccountFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Post post = snapshot1.getValue(Post.class);
-                    if (post.getLister().equals(firebaseUser.getUid())) {
+                    if (post.getLister().equals(profileId)) {
                         i++;
                     }
                 }
@@ -274,7 +282,7 @@ public class AccountFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Post post = snapshot1.getValue(Post.class);
-                    if (post.getLister().equals(firebaseUser.getUid())) {
+                    if (post.getLister().equals(profileId)) {
                         postList.add(post);
                     }
                 }

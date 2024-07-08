@@ -2,21 +2,15 @@ package com.example.biznus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.biznus.Adapter.NotificationAdapter;
 import com.example.biznus.Adapter.UserAdapter;
 import com.example.biznus.Listener.UserListener;
 import com.example.biznus.Model.User;
@@ -74,9 +68,9 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                 userList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     User user = snapshot1.getValue(User.class);
-                    Log.d("testFFF", "User found: " + user.getId());
+                    Log.d("testFFF", "User found: " + user.getUserid());
                     Log.d("testFFF", "firebaseuser id: " + firebaseUser.getUid());
-                    if (firebaseUser.getUid().equals(user.getId())) {
+                    if (firebaseUser.getUid().equals(user.getUserid())) {
                         Log.d("testFFF", "Same user");
                         continue;
                     }

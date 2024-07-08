@@ -32,11 +32,11 @@ public class User implements Serializable {
         this.FCMtoken = token;
     }
 
-    public String getId() {
-        return userid != null ? userid : "";
+    public String getUserid() {
+        return this.userid;
     }
 
-    public void setId(String id) {
+    public void setUserid(String id) {
         this.userid = id;
     }
 

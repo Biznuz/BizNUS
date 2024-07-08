@@ -91,23 +91,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("lister", post.getLister());
+                editor.putString("userid", post.getLister());
                 editor.apply();
 
                 ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
             }
         });
 
-//        holder.username.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-//                editor.putString("lister", post.getLister());
-//                editor.apply();
-//
-//                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
-//            }
-//        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("userid", post.getLister());
+                editor.apply();
+
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
+            }
+        });
 
         holder.post_image.setOnClickListener(new View.OnClickListener() {
             @Override
