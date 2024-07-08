@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.biznus.Listener.UserListener;
 import com.example.biznus.Model.User;
 import com.example.biznus.R;
 import com.example.biznus.ui.account.AccountFragment;
@@ -35,10 +36,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private Context mContext;
     private List<User> mUsers;
     private FirebaseUser firebaseUser;
+    private UserListener userListener;
 
-    public UserAdapter(Context context, List<User> list) {
+    public UserAdapter(Context context, List<User> list, UserListener userListener) {
         this.mContext = context;
         this.mUsers = list;
+        this.userListener = userListener;
     }
 
     @NonNull
@@ -59,6 +62,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         holder.username.setText(user.getUsername());
         holder.fullname.setText(user.getFullname());
         Glide.with(mContext).load(user.getImageurl()).into(holder.image_profile);
+        holder.itemView.setOnClickListener(v -> userListener.onUserClicked(user));
 
 //        isFollowing(user.getId(), holder.followButton);
 //        if (user.getId().equals(firebaseUser.getUid())) {
