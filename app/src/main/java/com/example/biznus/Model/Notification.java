@@ -8,7 +8,7 @@ public class Notification {
     private String notifs;
     private boolean islist;
 
-    public Notification(String userid, String listif, String notifs, boolean islist) {
+    public Notification(String userid, String listid, String notifs, boolean islist) {
         this.userid = userid;
         this.listid = listid;
         this.notifs = notifs;

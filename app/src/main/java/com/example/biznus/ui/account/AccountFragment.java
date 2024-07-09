@@ -175,7 +175,6 @@ public class AccountFragment extends Fragment {
                 if (getContext() == null) {
                     return;
                 }
-
                 User user = snapshot.getValue(User.class);
 
                 Glide.with(getContext()).load(user.getImageurl()).into(profileImage);
@@ -183,13 +182,13 @@ public class AccountFragment extends Fragment {
                 fullname.setText(user.getFullname());
                 bio.setText(user.getBio());
 
-                if (!profileId.equals(firebaseUser.getUid())) {
-                    SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.remove("userid");
-                    editor.putString("userid", firebaseUser.getUid());
-                    editor.commit();
-                }
+//                if (!profileId.equals(firebaseUser.getUid())) {
+//                    SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.remove("userid");
+//                    editor.putString("userid", firebaseUser.getUid());
+//                    editor.commit();
+//                }
             }
 
             @Override
