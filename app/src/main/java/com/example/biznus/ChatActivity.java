@@ -107,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
                 .child(messageId).updateChildren(hashMap);
         message.setText(null);
 
-//        readMessages();
+        readMessages();
     }
 
 //    private void listenMessages() {

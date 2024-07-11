@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,9 +94,9 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
 
 
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                if (!email.contains("@u.nus.edu")) {
                     Toast.makeText(RegisterActivity.this, "Please re-enter email", Toast.LENGTH_SHORT).show();
-                    editTextEmail.setError("Valid email required");
+                    editTextEmail.setError("Valid NUS email required");
                     editTextEmail.requestFocus();
                 } else {
                     registerUser(username, email, password);
@@ -164,6 +166,19 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             String userid = firebaseUser.getUid();
 
+                            // send verification
+                            firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getApplicationContext(), "Verification Email has been sent.", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "Email not sent" + e.getMessage());
+                                }
+                            });
+
                             // write to user data
                             ReadWriteUserData writeUserData = new ReadWriteUserData(username, userid);
                             reference = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -181,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         reference.child(firebaseUser.getUid()).updateChildren(hashMap);
                                         Toast.makeText(RegisterActivity.this, "Account created",
                                                 Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                         startActivity(i);
                                         finish();
                                     } else {

@@ -39,7 +39,10 @@ import com.example.biznus.MainActivity;
 import com.example.biznus.Model.Post;
 import com.example.biznus.Model.User;
 import com.example.biznus.R;
+import com.example.biznus.RegisterActivity;
 import com.example.biznus.databinding.FragmentAccountBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -60,8 +63,8 @@ import java.util.List;
 public class AccountFragment extends Fragment {
 
     ImageView profileImage, options;
-    TextView lists, followers, following, fullname, bio, username;
-    Button edit_profile;
+    TextView lists, followers, following, fullname, bio, username, verification;
+    Button edit_profile, vButton;
 
     RecyclerView recyclerView;
     MyListingsAdapter myListingsAdapter;
@@ -86,6 +89,7 @@ public class AccountFragment extends Fragment {
             SharedPreferences.Editor editor = prefs1.edit();
             editor.putString("userid", firebaseUser.getUid());
             editor.commit();
+            profileId = prefs.getString("userid", "none");
         }
         else if (!profileId.equals(firebaseUser.getUid())) {
             SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
@@ -93,6 +97,7 @@ public class AccountFragment extends Fragment {
             editor.remove("userid");
             editor.putString("userid", firebaseUser.getUid());
             editor.commit();
+            profileId = prefs.getString("userid", "none");
         }
 
         profileImage = view.findViewById(R.id.image_profile);
@@ -115,6 +120,9 @@ public class AccountFragment extends Fragment {
         postList = new ArrayList<>();
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
+
+        vButton = view.findViewById(R.id.vButton);
+        verification = view.findViewById(R.id.verification);
 
 
         myListings();
@@ -176,6 +184,33 @@ public class AccountFragment extends Fragment {
                 popupMenu.show();
             }
         });
+
+        // Email Verification
+//        if (profileId.equals(firebaseUser.getUid())) {
+//            if (!firebaseUser.isEmailVerified()) {
+//                verification.setVisibility(View.VISIBLE);
+//                vButton.setVisibility(View.VISIBLE);
+//
+//                vButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(final View v) {
+//                        firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(getContext().getApplicationContext(),
+//                                        "Verification Email has been sent.",
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.e("tag", "Email not sent" + e.getMessage());
+//                            }
+//                        });
+//                    }
+//                });
+//            }
+//        }
 
         return view;
 
