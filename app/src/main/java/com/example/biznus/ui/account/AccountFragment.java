@@ -81,6 +81,20 @@ public class AccountFragment extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         profileId = prefs.getString("userid", "none");
 
+        if (profileId.equals(null)) {
+            SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs1.edit();
+            editor.putString("userid", firebaseUser.getUid());
+            editor.commit();
+        }
+        else if (!profileId.equals(firebaseUser.getUid())) {
+            SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs1.edit();
+            editor.remove("userid");
+            editor.putString("userid", firebaseUser.getUid());
+            editor.commit();
+        }
+
         profileImage = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
         lists = view.findViewById(R.id.lists);
@@ -181,14 +195,6 @@ public class AccountFragment extends Fragment {
                 username.setText(user.getUsername());
                 fullname.setText(user.getFullname());
                 bio.setText(user.getBio());
-
-//                if (!profileId.equals(firebaseUser.getUid())) {
-//                    SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = prefs.edit();
-//                    editor.remove("userid");
-//                    editor.putString("userid", firebaseUser.getUid());
-//                    editor.commit();
-//                }
             }
 
             @Override
