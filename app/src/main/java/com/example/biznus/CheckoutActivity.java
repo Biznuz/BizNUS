@@ -38,7 +38,7 @@ import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";
-    private static final String BACKEND_URL = "https://biznus.onrender.com/";
+    private static final String BACKEND_URL = "https://biznus.onrender.com";
 
     private String paymentIntentClientSecret;
     private PaymentSheet paymentSheet;

@@ -48,6 +48,8 @@
             android:exported="false"
             android:label="BizNUS" />
 
+        <meta-data android:name="com.google.android.gms.wallet.api.enabled" android:value="true" />
+
         <service
             android:name=".MessagingService"
             android:exported="false">
