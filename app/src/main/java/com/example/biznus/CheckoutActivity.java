@@ -1,6 +1,7 @@
 package com.example.biznus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -15,9 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Model.Post;
+import com.example.biznus.ui.ListingDetailFragment;
+import com.example.biznus.ui.account.AccountFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +53,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private ImageView postImage;
     private TextView postPrice;
     private Double amount;
+    private Post post;
 
 
     @Override
@@ -84,7 +89,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 if (!snapshot.exists()) {
                     return;
                 }
-                Post post = snapshot.getValue(Post.class);
+                post = snapshot.getValue(Post.class);
+
                 Glide.with(getApplicationContext()).load(post.getListImage()).into(postImage);
                 amount = Double.parseDouble(post.getPrice());
                 postPrice.setText("$" + post.getPrice());
@@ -194,12 +200,15 @@ public class CheckoutActivity extends AppCompatActivity {
             final PaymentSheetResult paymentSheetResult
     ) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings").child(listID).child("isSold");
+            reference.setValue(true);
             showToast("Payment complete!");
+            finish();
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
-            Throwable error = ((PaymentSheetResult.Failed) paymentSheetResult).getError();
-            showAlert("Payment failed", error.getLocalizedMessage());
+//            Throwable error = ((PaymentSheetResult.Failed) paymentSheetResult).getError();
+//            showAlert("Payment failed", error.getLocalizedMessage());
         }
     }
 

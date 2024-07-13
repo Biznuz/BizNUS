@@ -201,6 +201,7 @@ public class ListActivity extends AppCompatActivity {
                         hashMap.put("description", editTextDescription.getText().toString());
                         hashMap.put("condition", conditionSpinner.getSelectedItem());
                         hashMap.put("lister", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        hashMap.put("isSold", false);
 
                         reference.child(listId).setValue(hashMap);
 
