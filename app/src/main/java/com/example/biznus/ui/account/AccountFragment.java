@@ -63,8 +63,8 @@ import java.util.List;
 public class AccountFragment extends Fragment {
 
     ImageView profileImage, options;
-    TextView lists, followers, following, fullname, bio, username, verification;
-    Button edit_profile, vButton;
+    TextView lists, followers, following, fullname, bio, username;
+    Button edit_profile;
 
     RecyclerView recyclerView;
     MyListingsAdapter myListingsAdapter;
@@ -83,21 +83,14 @@ public class AccountFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         profileId = prefs.getString("userid", "none");
+        Log.e("Account Fragment", profileId.toString());
 
-        if (profileId.equals(null)) {
+        if (profileId.equals("none")) {
             SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs1.edit();
             editor.putString("userid", firebaseUser.getUid());
             editor.commit();
-            profileId = prefs.getString("userid", "none");
-        }
-        else if (!profileId.equals(firebaseUser.getUid())) {
-            SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs1.edit();
-            editor.remove("userid");
-            editor.putString("userid", firebaseUser.getUid());
-            editor.commit();
-            profileId = prefs.getString("userid", "none");
+            profileId = prefs1.getString("userid", "none");
         }
 
         profileImage = view.findViewById(R.id.image_profile);
@@ -120,10 +113,6 @@ public class AccountFragment extends Fragment {
         postList = new ArrayList<>();
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
-
-        vButton = view.findViewById(R.id.vButton);
-        verification = view.findViewById(R.id.verification);
-
 
         myListings();
         userInfo();
@@ -185,33 +174,6 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // Email Verification
-//        if (profileId.equals(firebaseUser.getUid())) {
-//            if (!firebaseUser.isEmailVerified()) {
-//                verification.setVisibility(View.VISIBLE);
-//                vButton.setVisibility(View.VISIBLE);
-//
-//                vButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(final View v) {
-//                        firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Toast.makeText(getContext().getApplicationContext(),
-//                                        "Verification Email has been sent.",
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.e("tag", "Email not sent" + e.getMessage());
-//                            }
-//                        });
-//                    }
-//                });
-//            }
-//        }
-
         return view;
 
     }
@@ -230,6 +192,13 @@ public class AccountFragment extends Fragment {
                 username.setText(user.getUsername());
                 fullname.setText(user.getFullname());
                 bio.setText(user.getBio());
+
+                if (!profileId.equals(firebaseUser.getUid())) {
+                    SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs1.edit();
+                    editor.remove("userid");
+                    editor.commit();
+                }
             }
 
             @Override

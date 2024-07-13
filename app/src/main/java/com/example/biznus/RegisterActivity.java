@@ -187,7 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
-
                                         HashMap<String, Object> hashMap = new HashMap<>();
                                         hashMap.put("fullname", "");
                                         hashMap.put("bio", "");
