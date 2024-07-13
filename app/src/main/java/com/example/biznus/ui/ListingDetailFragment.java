@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -80,7 +81,6 @@ public class ListingDetailFragment extends Fragment {
 
     private TextView buyButton;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,154 +121,11 @@ public class ListingDetailFragment extends Fragment {
             }
         });
 
-
-//
         PaymentConfiguration.init(getContext(), PublishableKey);
-//
-//        paymentSheet = new PaymentSheet(this, paymentSheetResult -> {
-//
-//            onPaymentResult(paymentSheetResult);
-//        });
-//        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/customers",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            CustomerId = object.getString("id");
-//                            Toast.makeText(getContext(), CustomerId, Toast.LENGTH_SHORT).show();
-//
-//                            getEmphericalKey(CustomerId);
-//
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<>();
-//                header.put("Authorization", "Bearer " + SecretKey);
-//                return header;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        requestQueue.add(request);
 
         return view;
     }
 
-
-//    private void paymentFlow() {
-//
-//        paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("BizNUS", new PaymentSheet.CustomerConfiguration(
-//                CustomerId, EphericalKey
-//        )));
-//        Log.d("paypay", "errorrr");
-//    }
-//    private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
-//        if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-//            Toast.makeText(getContext(), "Payment Successful", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    private void getEmphericalKey(String customerId) {
-//        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/ephemeral_keys",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            EphericalKey = object.getString("id");
-//                            Toast.makeText(getContext(), CustomerId, Toast.LENGTH_SHORT).show();
-//
-//                            getClientSecret(CustomerId, EphericalKey);
-//
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<>();
-//                header.put("Authorization", "Bearer " + SecretKey);
-//                header.put("Stripe-Version", "2024-06-20");
-//                return header;
-//            }
-//
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("customer", CustomerId);
-//                return params;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        requestQueue.add(request);
-//    }
-//
-//    private void getClientSecret(String customerId, String ephericalKey) {
-//        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            ClientSecret = object.getString("client_secret");
-//
-//                            Toast.makeText(getContext(), ClientSecret, Toast.LENGTH_SHORT).show();
-//
-//
-//
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<>();
-//                header.put("Authorization", "Bearer " + SecretKey);
-//                return header;
-//            }
-//
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("customer", CustomerId);
-//                params.put("amount", "100" + "00");
-//                params.put("currency", "SGD");
-//                params.put("automatic_payment_methods[enabled]", "true");
-//                return params;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        requestQueue.add(request);
-//    }
 
     private void readPosts() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings").child(listID);
@@ -278,6 +135,11 @@ public class ListingDetailFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 Post post = snapshot.getValue(Post.class);
+                if (post.getIsSold()) {
+                    buyButton.setEnabled(false);
+                    buyButton.setText("SOLD");
+                    buyButton.setTextColor(Color.RED);
+                }
                 list.add(post);
 
                 listDetailAdapter.notifyDataSetChanged();

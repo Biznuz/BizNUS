@@ -19,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_height="108dp"
             android:padding="8dp">
 
             <RelativeLayout
@@ -42,30 +42,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
                     android:text="$0"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sold"
+                    android:layout_toEndOf="@id/post_price"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="22dp"
+                    android:text="SOLD"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
                     android:id="@+id/condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_toEndOf="@+id/post_price"
-                    android:text="Brand New"
+                    android:layout_marginTop="42dp"
                     android:textColor="@color/cardview_light_background"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:text="Brand New"
+                    android:textSize="14sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_profile"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="62dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <TextView
@@ -74,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="62dp"
                     android:layout_toEndOf="@+id/image_profile"
                     android:text="username"
                     android:textColor="@color/cardview_light_background"

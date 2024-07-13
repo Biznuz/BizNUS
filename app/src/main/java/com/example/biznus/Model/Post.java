@@ -8,8 +8,9 @@ public class Post {
     private String lister;
     private String condition;
     private String description;
+    private boolean isSold;
 
-    public Post(String listID, String title, String listImage, String price, String lister, String condition, String description) {
+    public Post(String listID, String title, String listImage, String price, String lister, String condition, String description, boolean isSold) {
         this.listID = listID;
         this.title = title;
         this.listImage = listImage;
@@ -17,9 +18,18 @@ public class Post {
         this.lister = lister;
         this.condition = condition;
         this.description = description;
+        this.isSold = isSold;
     }
 
     public Post() {
+    }
+
+    public boolean getIsSold() {
+        return isSold;
+    }
+
+    public void setIsSold(boolean isSold) {
+        this.isSold = isSold;
     }
 
     public String getDescription() {

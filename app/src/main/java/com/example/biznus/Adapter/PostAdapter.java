@@ -68,6 +68,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             Log.e("PostAdapter", "Post object is null at position: " + position);
         }
 
+        if (post.getIsSold()) {
+            holder.sold.setVisibility(View.VISIBLE);
+        }
+
         if (post.getTitle().equals("")) {
             holder.postTitle.setVisibility(View.GONE);
         } else {
@@ -153,7 +157,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView image_profile, post_image, like;
-        public TextView username, postPrice, postTitle, postDescription, postCondition, likes;
+        public TextView username, postPrice, postTitle, postDescription, postCondition, likes, sold;
         public RecyclerView recyclerView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -168,9 +172,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postTitle = itemView.findViewById(R.id.post_title);
             postDescription = itemView.findViewById(R.id.description);
             postCondition = itemView.findViewById(R.id.condition);
+            sold = itemView.findViewById(R.id.sold);
             recyclerView = itemView.findViewById(R.id.recycler_view);
         }
     }
+
 
     private void isLiked(String listID, final ImageView imageView) {
         final FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
