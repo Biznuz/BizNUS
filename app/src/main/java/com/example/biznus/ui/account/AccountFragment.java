@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Adapter.MyListingsAdapter;
+import com.example.biznus.ChatBotActivity;
 import com.example.biznus.Decoration.Space;
 import com.example.biznus.EditProfileActivity;
 import com.example.biznus.LoginActivity;
@@ -62,7 +63,7 @@ import java.util.List;
 
 public class AccountFragment extends Fragment {
 
-    ImageView profileImage, options;
+    ImageView profileImage, options, chatbot;
     TextView lists, followers, following, fullname, bio, username;
     Button edit_profile;
 
@@ -104,6 +105,7 @@ public class AccountFragment extends Fragment {
         edit_profile = view.findViewById(R.id.edit_profile);
         listings = view.findViewById(R.id.my_listings);
         reviews = view.findViewById(R.id.my_reviews);
+        chatbot = view.findViewById(R.id.chatbot);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -173,6 +175,15 @@ public class AccountFragment extends Fragment {
                 popupMenu.show();
             }
         });
+
+        chatbot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ChatBotActivity.class));
+            }
+        });
+
+
 
         return view;
 
