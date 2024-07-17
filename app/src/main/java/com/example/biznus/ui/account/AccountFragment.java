@@ -25,7 +25,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -166,6 +169,7 @@ public class AccountFragment extends Fragment {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users")
                                     .child(firebaseUser.getUid()).child("FCMtoken");
                             reference.removeValue();
+
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                             return true;
                         }

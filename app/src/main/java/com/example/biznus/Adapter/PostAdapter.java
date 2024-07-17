@@ -99,8 +99,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 editor.putString("userid", post.getLister());
                 editor.apply();
 
-                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
-            }
+                NavController navController = Navigation.findNavController((FragmentActivity) mContext, R.id.nav_host_fragment_activity_main);
+                Bundle bundle = new Bundle();
+                bundle.putString("userid", post.getLister());
+                navController.navigate(R.id.action_explore_to_accountFragment, bundle);            }
         });
 
         holder.username.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +112,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 editor.putString("userid", post.getLister());
                 editor.apply();
 
-                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
+                NavController navController = Navigation.findNavController((FragmentActivity) mContext, R.id.nav_host_fragment_activity_main);
+                Bundle bundle = new Bundle();
+                bundle.putString("userid", post.getLister());
+                navController.navigate(R.id.action_explore_to_accountFragment, bundle);
             }
         });
 
@@ -127,9 +132,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         .setReorderingAllowed(true)
                         .addToBackStack("Listing Detail") // Name can be null
                         .commit();
-
-
-//                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.container, new ListingDetailFragment()).commit();
             }
         });
 
