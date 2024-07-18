@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
@@ -69,15 +70,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        
+
 
         navView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case 2131296740:
+            MenuItem exploreItem = navView.getMenu().findItem(R.id.navigation_explore);
+            int exploreItemId = exploreItem.getItemId();
+                if (item.getItemId() == exploreItemId) {
                     navController.navigate(R.id.navigation_explore, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
                     return true;
-                default:
+                }
+                else {
+                    Log.e("AccountFragment", "" + item.getItemId());
                     return NavigationUI.onNavDestinationSelected(item, navController);
-            }
+                }
         });
 
     }
