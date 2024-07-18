@@ -4,13 +4,16 @@ import kotlin.text.UStringsKt;
 
 public class Notification {
     private String userid;
-    private String listid;
+    private String listID;
     private String notifs;
     private boolean islist;
 
-    public Notification(String userid, String listid, String notifs, boolean islist) {
+    public Notification() {
+    }
+
+    public Notification(String userid, String listID, String notifs, boolean islist) {
         this.userid = userid;
-        this.listid = listid;
+        this.listID = listID;
         this.notifs = notifs;
         this.islist = islist;
 
@@ -24,12 +27,12 @@ public class Notification {
         this.userid = userid;
     }
 
-    public String getListid() {
-        return listid;
+    public String getListID() {
+        return listID;
     }
 
-    public void setListid(String listid) {
-        this.listid = listid;
+    public void setListID(String listID) {
+        this.listID = listID;
     }
 
     public String getNotifs() {

@@ -21,13 +21,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/username"
-            android:textColor="@color/design_default_color_primary_dark"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/white"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notifs"
+            android:layout_marginLeft="15dp"
             android:maxLines="5"/>
 
     </LinearLayout>
@@ -36,6 +38,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/list_image"
+        android:layout_marginRight="10dp"
         android:layout_alignParentEnd="true"/>
 
 

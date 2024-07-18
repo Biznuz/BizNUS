@@ -51,7 +51,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
         Post post = mPost.get(position);
 
         Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
-        holder.postTitle.setText("Title: " + post.getTitle());
+        holder.postTitle.setText(post.getTitle());
         holder.postPrice.setText("$" + post.getPrice());
         holder.postCondition.setText("Condition: " + post.getCondition());
         holder.description.setText("Description: " + post.getDescription());

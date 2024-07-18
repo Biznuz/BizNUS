@@ -33,12 +33,28 @@
         android:id="@+id/navigation_notifications"
         android:name="com.example.biznus.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications">
+
+        <action
+            android:id="@+id/action_notification_to_listDetail"
+            app:destination="@id/listDetail" />
+
+        <action
+            android:id="@+id/action_notification_to_accountFragment"
+            app:destination="@id/navigation_account" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
         android:name="com.example.biznus.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/listDetail"
+        android:name="com.example.biznus.ui.ListingDetailFragment"
+        android:label="Listing"
+        tools:layout="@layout/fragment_listing_detail"/>
 
 </navigation>

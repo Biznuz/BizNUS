@@ -50,7 +50,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private Button payButton;
 
     String listID;
-    private ImageView postImage;
+    private ImageView postImage, cancel;
     private TextView postPrice;
     private Double amount;
     private Post post;
@@ -67,8 +67,10 @@ public class CheckoutActivity extends AppCompatActivity {
         payButton.setOnClickListener(this::onPayClicked);
         payButton.setEnabled(false);
 
+
         postImage = findViewById(R.id.post_image);
         postPrice = findViewById(R.id.post_price);
+        cancel = findViewById(R.id.cancel);
 
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
@@ -76,6 +78,13 @@ public class CheckoutActivity extends AppCompatActivity {
         listID = sharedPreferences.getString("listID", "none");
 
         readListing();
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
     }
@@ -188,8 +197,11 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void onPayClicked(View view) {
+
+
         PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("BizNUS")
                 .build();
+
 
         // Present Payment Sheet
         paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);

@@ -62,6 +62,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Post post = mPost.get(position);
+        holder.sold.setVisibility(View.GONE);
 
         if (post != null) {
             Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
@@ -249,12 +250,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         });
     }
 
-    private void addNotifications(String userid, String listid) {
+    private void addNotifications(String userid, String listID) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", firebaseUser.getUid());
         hashMap.put("notifs", "liked your listing");
-        hashMap.put("listID", listid);
+        hashMap.put("listID", listID);
         hashMap.put("islist", true);
 
         reference.push().setValue(hashMap);

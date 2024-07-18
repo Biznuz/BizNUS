@@ -39,13 +39,13 @@
 
     </LinearLayout>
 
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:id="@+id/followButton"-->
-<!--        android:textColor="@color/design_default_color_primary_dark"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:visibility="gone"/>-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/followButton"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>
