@@ -35,12 +35,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.biznus.Adapter.MyListingsAdapter;
+import com.example.biznus.Adapter.NotificationAdapter;
+import com.example.biznus.Adapter.ReviewAdapter;
 import com.example.biznus.ChatBotActivity;
 import com.example.biznus.Decoration.Space;
 import com.example.biznus.EditProfileActivity;
 import com.example.biznus.LoginActivity;
 import com.example.biznus.MainActivity;
+import com.example.biznus.Model.Notification;
 import com.example.biznus.Model.Post;
+import com.example.biznus.Model.Review;
 import com.example.biznus.Model.User;
 import com.example.biznus.R;
 import com.example.biznus.RegisterActivity;
@@ -66,13 +70,15 @@ import java.util.List;
 
 public class AccountFragment extends Fragment {
 
-    ImageView profileImage, options, chatbot;
+    ImageView profileImage, options, chatbot, leftHighlight, rightHighlight;
     TextView lists, followers, following, fullname, bio, username;
     Button edit_profile;
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, recyclerViewReviews;
     MyListingsAdapter myListingsAdapter;
+    ReviewAdapter reviewAdapter;
     List<Post> postList;
+    List<Review> reviewList;
 
     FirebaseUser firebaseUser;
     String profileId;
@@ -110,6 +116,11 @@ public class AccountFragment extends Fragment {
         reviews = view.findViewById(R.id.my_reviews);
         chatbot = view.findViewById(R.id.chatbot);
 
+
+        leftHighlight = view.findViewById(R.id.left_under);
+        rightHighlight = view.findViewById(R.id.right_under);
+        rightHighlight.setVisibility(View.GONE);
+
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -119,10 +130,39 @@ public class AccountFragment extends Fragment {
         myListingsAdapter = new MyListingsAdapter(getContext(), postList);
         recyclerView.setAdapter(myListingsAdapter);
 
+        recyclerViewReviews = view.findViewById(R.id.recycler_view_reviews);
+        recyclerViewReviews.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext());
+        recyclerViewReviews.setLayoutManager(linearLayoutManager2);
+        reviewList = new ArrayList<>();
+        reviewAdapter = new ReviewAdapter(getContext(), reviewList);
+        recyclerViewReviews.setAdapter(reviewAdapter);
+
         myListings();
         userInfo();
         getFollowers();
         getMyListings();
+        getReviews();
+
+        listings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerViewReviews.setVisibility(View.GONE);
+                leftHighlight.setVisibility(View.VISIBLE);
+                rightHighlight.setVisibility(View.GONE);
+            }
+        });
+
+        reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewReviews.setVisibility(View.VISIBLE);
+                leftHighlight.setVisibility(View.GONE);
+                rightHighlight.setVisibility(View.VISIBLE);
+            }
+        });
 
 
         if (profileId.equals(firebaseUser.getUid())) {
@@ -332,12 +372,26 @@ public class AccountFragment extends Fragment {
         reference.push().setValue(hashMap);
     }
 
+    private void getReviews() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Reviews").child(firebaseUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                reviewList.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    Review review = snapshot1.getValue(Review.class);
+                    reviewList.add(review);
+                }
 
-    
+                Collections.reverse(reviewList);
+                reviewAdapter.notifyDataSetChanged();
+            }
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        binding = null;
-//    }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

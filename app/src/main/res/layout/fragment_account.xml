@@ -72,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:padding="16dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -241,10 +242,38 @@
                 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="205dp"
+                    android:layout_height="1dp"
+                    android:background="@drawable/border"
+                    android:id="@+id/left_under"/>
+
+                <ImageView
+                    android:layout_width="205dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="205dp"
+                    android:background="@drawable/border"
+                    android:id="@+id/right_under" />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recycler_view"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recycler_view_reviews"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
+
 
         </LinearLayout>
 

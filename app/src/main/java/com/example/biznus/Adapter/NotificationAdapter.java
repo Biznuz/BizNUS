@@ -79,12 +79,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 //                            new ListingDetailFragment()).commit();
                 } else {
                     SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                    editor.putString("profileId", notification.getUserid());
+                    editor.putString("userid", notification.getUserid());
                     editor.apply();
 
                     NavController navController = Navigation.findNavController((FragmentActivity) mContext, R.id.nav_host_fragment_activity_main);
                     Bundle bundle = new Bundle();
-                    bundle.putString("profileId", notification.getUserid());
+                    bundle.putString("userid", notification.getUserid());
                     navController.navigate(R.id.action_notification_to_accountFragment, bundle);
 
 //                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main,

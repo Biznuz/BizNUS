@@ -54,6 +54,10 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
         holder.postPrice.setText("$" + post.getPrice());
         holder.postCondition.setText(post.getCondition());
 
+        if (post.getIsSold()) {
+            holder.sold.setVisibility(View.VISIBLE);
+        }
+
         if (post.getListID() != null) {
             //isLiked(post.getListID(), holder.like);
             holder.like.setImageResource(R.drawable.baseline_favorite_24);
@@ -80,7 +84,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView post_image, like;
-        public TextView postPrice, postTitle, postCondition, likes;
+        public TextView postPrice, postTitle, postCondition, likes, sold;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +94,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
             postTitle = itemView.findViewById(R.id.post_title);
             postCondition = itemView.findViewById(R.id.condition);
             likes = itemView.findViewById(R.id.likes);
+            sold = itemView.findViewById(R.id.sold);
         }
     }
 

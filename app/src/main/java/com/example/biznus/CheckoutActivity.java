@@ -215,6 +215,9 @@ public class CheckoutActivity extends AppCompatActivity {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Listings").child(listID).child("isSold");
             reference.setValue(true);
             showToast("Payment complete!");
+
+            Intent i = new Intent(getApplicationContext(), ReviewActivity.class);
+            startActivity(i);
             finish();
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
