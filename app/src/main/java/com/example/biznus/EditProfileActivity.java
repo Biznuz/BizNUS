@@ -107,6 +107,9 @@ public class EditProfileActivity extends AppCompatActivity {
                         username.getText().toString(),
                         bio.getText().toString());
 
+                Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT);
+                finish();
+
             }
         });
 

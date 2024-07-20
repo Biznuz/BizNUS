@@ -59,7 +59,7 @@ public class MyListingsAdapter extends RecyclerView.Adapter<MyListingsAdapter.Vi
         }
 
         if (post.getListID() != null) {
-            //isLiked(post.getListID(), holder.like);
+            isLiked(post.getListID(), holder.like);
             holder.like.setImageResource(R.drawable.baseline_favorite_24);
             totalLikes(holder.likes, post.getListID());
         }
