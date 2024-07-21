@@ -17,9 +17,10 @@
             android:layout_marginLeft="10dp"
             android:src="@mipmap/ic_launcher" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="108dp"
+            android:orientation="vertical"
             android:padding="8dp">
 
             <RelativeLayout
@@ -30,80 +31,11 @@
                 <TextView
                     android:id="@+id/post_title"
                     android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="title"
-                    android:maxWidth="200dp"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/post_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-
-                    android:layout_marginTop="20dp"
-                    android:text="$0"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sold"
-                    android:layout_toEndOf="@id/post_price"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="22dp"
-                    android:text="SOLD"
-                    android:textColor="@color/red"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/condition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="42dp"
-                    android:textColor="@color/cardview_light_background"
-                    android:text="Brand New"
-                    android:textSize="14sp"
-                    android:fontFamily="monospace"
-                    android:textStyle="bold" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_profile"
-                    android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginTop="62dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="62dp"
-                    android:layout_toEndOf="@+id/image_profile"
-                    android:text="username"
+                    android:maxWidth="200dp"
+                    android:text="title"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="119dp"
-                    android:layout_marginTop="21dp"
-                    android:layout_toEndOf="@+id/image_profile"
-                    android:text="15"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -115,7 +47,83 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/post_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="$0"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/post_price"
+                    android:layout_marginLeft="10dp"
+                    android:text="SOLD"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="9dp"
+                    android:text="5"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:fontFamily="monospace"
+                android:text="Brand New"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_profile"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/image_profile"
+                    android:text="username"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

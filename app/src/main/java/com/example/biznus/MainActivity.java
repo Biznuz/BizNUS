@@ -1,16 +1,12 @@
 package com.example.biznus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import androidx.appcompat.widget.Toolbar;
 
-import com.example.biznus.ui.account.AccountFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_explore, R.id.navigation_for_you,
+                R.id.navigation_explore, R.id.navigation_chatbot,
                 R.id.navigation_list, R.id.navigation_notifications, R.id.navigation_account)
                 .build();
 
@@ -85,7 +80,16 @@ public class MainActivity extends AppCompatActivity {
                     return NavigationUI.onNavDestinationSelected(item, navController);
                 }
         });
+        
+        clearSharedPreferences(); 
 
+    }
+
+    private void clearSharedPreferences() {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
     }
 
     private  void getToken() {

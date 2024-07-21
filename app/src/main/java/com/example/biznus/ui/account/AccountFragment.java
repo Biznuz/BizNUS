@@ -114,7 +114,6 @@ public class AccountFragment extends Fragment {
         edit_profile = view.findViewById(R.id.edit_profile);
         listings = view.findViewById(R.id.my_listings);
         reviews = view.findViewById(R.id.my_reviews);
-        chatbot = view.findViewById(R.id.chatbot);
 
 
         leftHighlight = view.findViewById(R.id.left_under);
@@ -219,15 +218,6 @@ public class AccountFragment extends Fragment {
                 popupMenu.show();
             }
         });
-
-        chatbot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), ChatBotActivity.class));
-            }
-        });
-
-
 
         return view;
 
