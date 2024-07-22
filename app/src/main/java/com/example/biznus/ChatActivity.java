@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -12,26 +11,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.biznus.Adapter.ChatAdapter;
 import com.example.biznus.Model.ChatMessage;
-import com.example.biznus.Model.Post;
 import com.example.biznus.Model.User;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private DatabaseReference databaseReference;
     private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         getReceiverInfo();
         init();
         readMessages();
+        listenMessages();
     }
 
     private void init() {
@@ -103,43 +97,49 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("receiverId", receiver.getUserid());
         hashMap.put("message", message.getText().toString());
         hashMap.put("timeStamp", new Date());
+        Log.e("Userid", prefs.getString("userid", "none"));
         databaseReference.child(prefs.getString("userid", "none"))
                 .child(messageId).updateChildren(hashMap);
         message.setText(null);
 
         readMessages();
+        listenMessages();
     }
 
-//    private void listenMessages() {
-//        databaseReference.child(prefs.getString("userid", "none")).addChildEventListener(eventListener);
-//    }
-//    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
-//        if (error != null) {
-//            return;
-//        }
-//        if (value != null) {
-//            int size = chatMessageList.size();
-//            for (DocumentChange documentChange : value.getDocumentChanges()) {
-//                if (documentChange.getType() == DocumentChange.Type.ADDED) {
-//                    ChatMessage chatMessage = new ChatMessage();
-//                    chatMessage.setSenderId(documentChange.getDocument().getString("senderId"));
-//                    chatMessage.setReceiverId(documentChange.getDocument().getString("receiverId"));
-//                    chatMessage.setMessage(documentChange.getDocument().getString("message"));
-//                    chatMessage.setTimeSent(getDate(documentChange.getDocument().getDate("timeStamp")));
-//                    chatMessage.setDate(documentChange.getDocument().getDate("timeStamp"));
-//                    chatMessageList.add(chatMessage);
-//                }
-//            }
-//            Collections.sort(chatMessageList, (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate()));
-//            if (size == 0) {
-//                chatAdapter.notifyDataSetChanged();
-//            } else {
-//                chatAdapter.notifyItemRangeInserted(chatMessageList.size(), chatMessageList.size());
-//                recyclerView.smoothScrollToPosition(chatMessageList.size() - 1);
-//            }
-//            recyclerView.setVisibility(View.VISIBLE);
-//        }
-//    };
+    private void listenMessages() {
+        databaseReference.child(receiver.getUserid()).addChildEventListener(childEventListener);
+    }
+    private final ChildEventListener childEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+            ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
+            if (chatMessage != null) {
+                chatMessageList.add(chatMessage);
+                chatMessage.setTimeSent(getDateFormat(chatMessage.getTimeStamp()));
+                chatMessage.setTimeStamp(chatMessage.getTimeStamp());
+                Collections.sort(chatMessageList, (obj1, obj2) -> obj1.getTimeStamp().compareTo(obj2.getTimeStamp()));
+                chatAdapter.notifyItemInserted(chatMessageList.size() - 1);
+                recyclerView.smoothScrollToPosition(chatMessageList.size() - 1);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 
     private void readMessages() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats").child(prefs.getString("userid", "none"));
@@ -149,20 +149,20 @@ public class ChatActivity extends AppCompatActivity {
                 chatMessageList.clear();
                 for (DataSnapshot snapshots : snapshot.getChildren()) {
                     ChatMessage chatMessage = snapshots.getValue(ChatMessage.class);
-//                    Log.d("dateTest", getDateFormat(chatMessage.getDate()));
-//                    chatMessage.setTimeSent(getDateFormat(chatMessage.getDate()));
-//                    chatMessage.setDate(chatMessage.getDate());
+                    Log.d("dateTest", chatMessage.getTimeStamp().toString());
+                    chatMessage.setTimeSent(getDateFormat(chatMessage.getTimeStamp()));
+                    chatMessage.setTimeStamp(chatMessage.getTimeStamp());
                     if (chatMessage.getSenderId().equals(prefs.getString("userid", "none")) &&
                     chatMessage.getReceiverId().equals(receiver.getUserid())) {
                         chatMessageList.add(chatMessage);
                     }
 
                 }
-//                Collections.sort(chatMessageList, (obj1, obj2) -> obj1.getDate().compareTo(obj2.getDate()));
+                Collections.sort(chatMessageList, (obj1, obj2) -> obj1.getTimeStamp().compareTo(obj2.getTimeStamp()));
                 if (chatMessageList.size() == 0) {
                     chatAdapter.notifyDataSetChanged();
                 } else {
-                    chatAdapter.notifyItemRangeInserted(chatMessageList.size(), chatMessageList.size());
+                    chatAdapter.notifyDataSetChanged();
                     recyclerView.smoothScrollToPosition(chatMessageList.size() - 1);
                 }
                 recyclerView.setVisibility(View.VISIBLE);
@@ -177,6 +177,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void getReceiverInfo() {
         receiver = (User) getIntent().getSerializableExtra("user");
+        Log.e("ChatActivity", "Receiver: " + receiver.getUsername());
         name.setText(receiver.getUsername());
     }
 

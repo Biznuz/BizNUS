@@ -8,25 +8,25 @@ public class ChatMessage {
     private String message;
     private String timeSent;
 
-    private Date date;
+    private Date timeStamp;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String senderId, String receiverId, String message, String timeSent, Date date) {
+    public ChatMessage(String senderId, String receiverId, String message, String timeSent, Date timeStamp) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
         this.timeSent = timeSent;
-        this.date = date;
+        this.timeStamp = timeStamp;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public String getSenderId() {

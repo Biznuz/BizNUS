@@ -1,6 +1,8 @@
 package com.example.biznus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,6 +63,11 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     private void getUsers() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Registered Users");
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userid", firebaseUser.getUid());
+        editor.commit();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
