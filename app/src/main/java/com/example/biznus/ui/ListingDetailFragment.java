@@ -32,9 +32,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.biznus.Adapter.ListDetailAdapter;
 import com.example.biznus.Adapter.PostAdapter;
+import com.example.biznus.ChatActivity;
 import com.example.biznus.CheckoutActivity;
 import com.example.biznus.MainActivity;
 import com.example.biznus.Model.Post;
+import com.example.biznus.Model.User;
 import com.example.biznus.R;
 import com.example.biznus.ui.account.AccountFragment;
 import com.example.biznus.ui.explore.ExploreFragment;
@@ -60,6 +62,7 @@ import com.stripe.param.PaymentIntentCreateParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,15 +72,12 @@ import kotlin.collections.ArrayDeque;
 
 public class ListingDetailFragment extends Fragment {
 
-    String listID, CustomerId, EphericalKey, ClientSecret;
+    String listID, lister;
     String PublishableKey = "pk_test_51PbO2lKfpy6OFgrdWf9jxe7JdAxUkMDKmua3iWR6tKWN2oC2veMxkMWS24KcZXi8SPy8jsPUd5hhUX3XvV3C6Mde00FNuYNyjm";
-    String SecretKey = "sk_test_51PbO2lKfpy6OFgrdn1wzG78eFrtLppXiMWi3AtNKyYbdZAkaIecn3ATFiTr1mMNApXt7akduUgxcDjuopOg1qOof00XmE6INPm";
-
-    PaymentSheet paymentSheet;
     private RecyclerView recyclerView;
     private ListDetailAdapter listDetailAdapter;
     private List<Post> list;
-    private ImageView back_button;
+    private ImageView back_button, chat_button;
 
     private TextView buyButton;
 
@@ -90,6 +90,7 @@ public class ListingDetailFragment extends Fragment {
 
         back_button = view.findViewById(R.id.back_button);
         buyButton = view.findViewById(R.id.buyButton);
+        chat_button = view.findViewById(R.id.chat);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         listID = sharedPreferences.getString("listID", "none");
@@ -121,9 +122,34 @@ public class ListingDetailFragment extends Fragment {
             }
         });
 
+        chat_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getUser();
+            }
+        });
+
         PaymentConfiguration.init(getContext(), PublishableKey);
 
         return view;
+    }
+
+    private void getUser() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(lister);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                Intent i = new Intent(getContext(), ChatActivity.class);
+                i.putExtra("user", (Serializable) user);
+                startActivity(i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -141,6 +167,7 @@ public class ListingDetailFragment extends Fragment {
                     buyButton.setTextColor(Color.RED);
                 }
                 list.add(post);
+                lister = post.getLister();
 
                 listDetailAdapter.notifyDataSetChanged();
             }

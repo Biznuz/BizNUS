@@ -33,6 +33,7 @@ public class NotificationsFragment extends Fragment {
     private RecyclerView recyclerView;
     private NotificationAdapter notificationAdapter;
     private List<Notification> notificationList;
+    TextView textView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +46,11 @@ public class NotificationsFragment extends Fragment {
         notificationAdapter = new NotificationAdapter(getContext(), notificationList);
         recyclerView.setAdapter(notificationAdapter);
 
+        textView = view.findViewById(R.id.no_notifications);
+
         getNotifications();
+
+
 
         return view;
     }
@@ -60,6 +65,12 @@ public class NotificationsFragment extends Fragment {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Notification notification = snapshot1.getValue(Notification.class);
                     notificationList.add(notification);
+                }
+
+                if (notificationList.size() == 0) {
+                    textView.setVisibility(View.VISIBLE);
+                } else {
+                    textView.setVisibility(View.GONE);
                 }
 
                 Collections.reverse(notificationList);

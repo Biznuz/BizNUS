@@ -37,6 +37,14 @@
                     android:src="@drawable/baseline_arrow_back_24"
                     android:id="@+id/back_button"/>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_chat_24"
+                    android:id="@+id/chat"
+                    android:layout_toEndOf="@id/listing"
+                    android:layout_marginLeft="250dp"/>
+
             
             </RelativeLayout>
 
@@ -55,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/black">
+        android:background="#000000">
 
         <TextView
             android:layout_width="300dp"

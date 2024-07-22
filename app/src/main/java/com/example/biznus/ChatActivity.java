@@ -177,7 +177,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private void getReceiverInfo() {
         receiver = (User) getIntent().getSerializableExtra("user");
-        Log.e("ChatActivity", "Receiver: " + receiver.getUsername());
         name.setText(receiver.getUsername());
     }
 

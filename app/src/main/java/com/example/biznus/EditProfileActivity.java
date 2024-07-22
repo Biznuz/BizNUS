@@ -107,9 +107,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         username.getText().toString(),
                         bio.getText().toString());
 
-                Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT);
-                finish();
-
             }
         });
 
@@ -181,6 +178,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         reference.updateChildren(hashMap);
                         progressDialog.dismiss();
+
+                        Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT);
+                        finish();
+
                     } else {
                         Toast.makeText(EditProfileActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
