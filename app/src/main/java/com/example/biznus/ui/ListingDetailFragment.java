@@ -43,6 +43,8 @@ import com.example.biznus.ui.explore.ExploreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.api.Distribution;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,6 +96,12 @@ public class ListingDetailFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         listID = sharedPreferences.getString("listID", "none");
+        lister = sharedPreferences.getString("lister", "none");
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser.getUid().equals(lister)) {
+            buyButton.setVisibility(View.GONE);
+        }
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

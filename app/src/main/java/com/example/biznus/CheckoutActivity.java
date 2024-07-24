@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.biznus.Model.Post;
 import com.example.biznus.ui.ListingDetailFragment;
 import com.example.biznus.ui.account.AccountFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +64,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_checkout);
 
+
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        listID = sharedPreferences.getString("listID", "none");
+
+
         // Hook up the pay button
         payButton = findViewById(R.id.pay_button);
         payButton.setOnClickListener(this::onPayClicked);
@@ -74,8 +82,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
-        listID = sharedPreferences.getString("listID", "none");
+
+
 
         readListing();
 

@@ -170,7 +170,7 @@ public class AccountFragment extends Fragment {
         } else {
             edit_profile.setText("Test");
             checkFollow();
-            reviews.setVisibility(View.GONE);
+            reviews.setVisibility(View.VISIBLE);
         }
 
         // edit profile button
