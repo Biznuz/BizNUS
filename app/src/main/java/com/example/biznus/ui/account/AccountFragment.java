@@ -144,7 +144,6 @@ public class AccountFragment extends Fragment {
         userInfo();
         getFollowers();
         getMyListings();
-        getReviews();
 
         listings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +162,7 @@ public class AccountFragment extends Fragment {
                 recyclerViewReviews.setVisibility(View.VISIBLE);
                 leftHighlight.setVisibility(View.GONE);
                 rightHighlight.setVisibility(View.VISIBLE);
+                getReviews();
             }
         });
 
@@ -388,13 +388,14 @@ public class AccountFragment extends Fragment {
 
     private void getReviews() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Reviews").child(firebaseUser.getUid());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Reviews").child(profileId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 reviewList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Review review = snapshot1.getValue(Review.class);
+                    Log.e("UserA", "" + review.getReview());
                     reviewList.add(review);
                 }
 

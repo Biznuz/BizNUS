@@ -82,7 +82,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.postPrice.setText("$" + post.getPrice());
             holder.postCondition.setText(post.getCondition());
             holder.username.setText(post.getLister());
-            //Log.d("testing", "post: " + post.getListID());
         }
 
         publisherInfo(holder.image_profile, holder.username, post.getLister());
