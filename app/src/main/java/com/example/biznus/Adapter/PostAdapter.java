@@ -227,9 +227,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private void publisherInfo(ImageView image_profile, TextView username, String userid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(userid);
-        SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-        editor.putString("lister", userid);
-        editor.apply();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

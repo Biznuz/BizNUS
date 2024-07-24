@@ -96,7 +96,6 @@ public class ListingDetailFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         listID = sharedPreferences.getString("listID", "none");
-        lister = sharedPreferences.getString("lister", "none");
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser.getUid().equals(lister)) {
@@ -176,6 +175,10 @@ public class ListingDetailFragment extends Fragment {
                 }
                 list.add(post);
                 lister = post.getLister();
+
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("lister", lister);
+                editor.apply();
 
                 listDetailAdapter.notifyDataSetChanged();
             }
