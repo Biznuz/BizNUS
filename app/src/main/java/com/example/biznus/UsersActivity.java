@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.biznus.Adapter.UserAdapter;
 import com.example.biznus.Listener.UserListener;
+import com.example.biznus.Model.ChatMessage;
 import com.example.biznus.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UsersActivity extends AppCompatActivity implements UserListener {
@@ -35,6 +37,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> userList;
+    private List<String> users;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         userList = new ArrayList<>();
+        users = new ArrayList<>();
         userAdapter = new UserAdapter(this, userList, this);
         recyclerView.setAdapter(userAdapter);
 
@@ -62,36 +66,102 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private void getUsers() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Registered Users");
+
+        DatabaseReference followings = FirebaseDatabase.getInstance().getReference()
+                .child("Follow").child(firebaseUser.getUid()).child("following");
+
+        DatabaseReference myChats = FirebaseDatabase.getInstance().getReference()
+                .child("Chats").child(firebaseUser.getUid());
+
+        DatabaseReference chats = FirebaseDatabase.getInstance().getReference()
+                .child("Chats");
 
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("userid", firebaseUser.getUid());
         editor.commit();
+        userList.clear();
+        users.clear();
 
-        reference.addValueEventListener(new ValueEventListener() {
+        chats.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    User user = snapshot1.getValue(User.class);
-                    Log.d("testFFF", "User found: " + user.getUserid());
-                    Log.d("testFFF", "firebaseuser id: " + firebaseUser.getUid());
-                    if (firebaseUser.getUid().equals(user.getUserid())) {
-                        Log.d("testFFF", "Same user");
-                        continue;
+                    for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+                        ChatMessage chatMessage = snapshot2.getValue(ChatMessage.class);
+                        if (chatMessage.getReceiverId().equals(firebaseUser.getUid())) {
+                            reference = FirebaseDatabase.getInstance().getReference("Registered Users")
+                                    .child(chatMessage.getSenderId());
+
+                            reference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = snapshot.getValue(User.class);
+                                    Log.e("UsersA", user.getUserid());
+                                    if (users.size() == 0) {
+                                        users.add(user.getUserid());
+                                        userList.add(user);
+                                        userAdapter.notifyDataSetChanged();
+                                    } else if (!users.contains(user.getUserid())) {
+                                        users.add(user.getUserid());
+                                        userList.add(user);
+                                        userAdapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
                     }
-                    userList.add(user);
                 }
-                userAdapter.notifyDataSetChanged();
-                Log.d("testFFF", "User list updated, size: " + userList.size());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("testFFF", "Database error: " + error.getMessage());
+
             }
         });
+
+        myChats.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    ChatMessage chatMessage = snapshot1.getValue(ChatMessage.class);
+                    reference = FirebaseDatabase.getInstance().getReference("Registered Users")
+                            .child(chatMessage.getReceiverId());
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            Log.e("UsersA", user.getUserid());
+                            if (users.size() == 0) {
+                                users.add(user.getUserid());
+                                userList.add(user);
+                                userAdapter.notifyDataSetChanged();
+                            } else if (!users.contains(user.getUserid())) {
+                                users.add(user.getUserid());
+                                userList.add(user);
+                                userAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override

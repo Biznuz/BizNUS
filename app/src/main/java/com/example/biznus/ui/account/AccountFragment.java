@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.example.biznus.Adapter.MyListingsAdapter;
 import com.example.biznus.Adapter.NotificationAdapter;
 import com.example.biznus.Adapter.ReviewAdapter;
+import com.example.biznus.ChatActivity;
 import com.example.biznus.ChatBotActivity;
 import com.example.biznus.Decoration.Space;
 import com.example.biznus.EditProfileActivity;
@@ -62,6 +63,7 @@ import com.google.firebase.ktx.Firebase;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,7 +74,7 @@ public class AccountFragment extends Fragment {
 
     ImageView profileImage, options, chatbot, leftHighlight, rightHighlight;
     TextView lists, followers, following, fullname, bio, username;
-    Button edit_profile;
+    Button edit_profile, message;
 
     RecyclerView recyclerView, recyclerViewReviews;
     MyListingsAdapter myListingsAdapter;
@@ -93,7 +95,6 @@ public class AccountFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         profileId = prefs.getString("userid", "none");
-        Log.e("Account Fragment", profileId.toString());
 
         if (profileId.equals("none")) {
             SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
@@ -115,6 +116,7 @@ public class AccountFragment extends Fragment {
         listings = view.findViewById(R.id.my_listings);
         reviews = view.findViewById(R.id.my_reviews);
         chatbot = view.findViewById(R.id.chatbot);
+        message = view.findViewById(R.id.message);
 
 
         leftHighlight = view.findViewById(R.id.left_under);
@@ -167,8 +169,8 @@ public class AccountFragment extends Fragment {
 
         if (profileId.equals(firebaseUser.getUid())) {
             edit_profile.setText("Edit Profile");
+            message.setText("Logout");
         } else {
-            edit_profile.setText("Test");
             checkFollow();
             reviews.setVisibility(View.VISIBLE);
         }
@@ -192,6 +194,22 @@ public class AccountFragment extends Fragment {
                             .child("following").child(profileId).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
                             .child("followers").child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
+
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (message.getText().toString().equals("Logout")) {
+                    FirebaseAuth.getInstance().signOut();
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users")
+                            .child(firebaseUser.getUid()).child("FCMtoken");
+                    reference.removeValue();
+
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                } else if (message.getText().toString().equals("Message")) {
+                    chat();
                 }
             }
         });
@@ -284,7 +302,6 @@ public class AccountFragment extends Fragment {
     private void getFollowers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(profileId).child("followers");
-        followers.setText("0");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -299,7 +316,6 @@ public class AccountFragment extends Fragment {
 
         DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference()
                 .child("Follow").child(profileId).child("following");
-        following.setText("0");
         reference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -384,6 +400,28 @@ public class AccountFragment extends Fragment {
 
                 Collections.reverse(reviewList);
                 reviewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void chat() {
+        SharedPreferences prefs = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userid", firebaseUser.getUid());
+        editor.commit();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users").child(profileId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                Intent i = new Intent(getContext(), ChatActivity.class);
+                i.putExtra("user", (Serializable) user);
+                startActivity(i);
             }
 
             @Override
