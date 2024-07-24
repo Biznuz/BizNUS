@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/navigation_explore"
-        android:icon="@drawable/magnifying_glass_black_24dp"
+        android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_explore" />
 
     <item
-        android:id="@+id/navigation_chatbot"
-        android:icon="@drawable/ic_contactsupport"
-        android:title="Chat Support" />
+        android:id="@+id/navigation_searchuser"
+        android:icon="@drawable/magnifying_glass_black_24dp"
+        android:title="Search" />
 
     <item
         android:id="@+id/navigation_list"

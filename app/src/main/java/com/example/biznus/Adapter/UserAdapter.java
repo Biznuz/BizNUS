@@ -83,34 +83,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             followButton = itemView.findViewById(R.id.followButton);
         }
     }
-
-    private void isFollowing(String userid, Button button) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Follow").child(firebaseUser.getUid()).child("following");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(userid).exists()) {
-                    button.setText("following");
-                } else {
-                    button.setText("follow");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    private void addNotifications(String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("userid", firebaseUser.getUid());
-        hashMap.put("notifs", "started following you");
-        hashMap.put("listID", "");
-        hashMap.put("islist", false);
-
-        reference.push().setValue(hashMap);
-    }
 }

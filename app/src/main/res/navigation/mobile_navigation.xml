@@ -17,11 +17,17 @@
 
     </fragment>
 
-    <activity
-        android:id="@+id/navigation_chatbot"
-        android:name="com.example.biznus.ChatBotActivity"
-        android:label="Chat Support"
-        tools:layout="@layout/activity_chatbot" />
+    <fragment
+        android:id="@+id/navigation_searchuser"
+        android:name="com.example.biznus.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/action_search_to_accountFragment"
+            app:destination="@id/navigation_account" />
+
+    </fragment>
 
     <activity
         android:id="@+id/navigation_list"
