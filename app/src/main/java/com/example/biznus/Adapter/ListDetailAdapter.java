@@ -58,7 +58,6 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
         holder.username.setText(post.getLister());
 
         if (post.getListID() != null) {
-            //isLiked(post.getListID(), holder.like);
             holder.like.setImageResource(R.drawable.baseline_favorite_24);
             totalLikes(holder.likes, post.getListID());
         }

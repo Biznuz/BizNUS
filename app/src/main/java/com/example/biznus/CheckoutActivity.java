@@ -82,9 +82,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
-
-
-
         readListing();
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -138,12 +135,9 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void fetchPaymentIntent() {
-//        final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
-
         HashMap<String, Object> hashMap = new HashMap<>();
         HashMap<String, Object> payMap = new HashMap<>();
         List<HashMap<String, Object>> itemList = new ArrayList<>();
-
 
         Log.d("postprice", "" + amount);
         payMap.put("currency", "sgd");
@@ -205,11 +199,8 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void onPayClicked(View view) {
-
-
         PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("BizNUS")
                 .build();
-
 
         // Present Payment Sheet
         paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);
@@ -230,8 +221,6 @@ public class CheckoutActivity extends AppCompatActivity {
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
-//            Throwable error = ((PaymentSheetResult.Failed) paymentSheetResult).getError();
-//            showAlert("Payment failed", error.getLocalizedMessage());
         }
     }
 

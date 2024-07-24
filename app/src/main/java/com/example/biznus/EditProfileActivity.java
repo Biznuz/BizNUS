@@ -106,7 +106,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 updateProfile(fullname.getText().toString(),
                         username.getText().toString(),
                         bio.getText().toString());
-
             }
         });
 

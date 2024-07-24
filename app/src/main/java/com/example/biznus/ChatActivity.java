@@ -97,7 +97,6 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("receiverId", receiver.getUserid());
         hashMap.put("message", message.getText().toString());
         hashMap.put("timeStamp", new Date());
-        Log.e("Userid", prefs.getString("userid", "none"));
         databaseReference.child(prefs.getString("userid", "none"))
                 .child(messageId).updateChildren(hashMap);
         message.setText(null);
@@ -149,7 +148,6 @@ public class ChatActivity extends AppCompatActivity {
                 chatMessageList.clear();
                 for (DataSnapshot snapshots : snapshot.getChildren()) {
                     ChatMessage chatMessage = snapshots.getValue(ChatMessage.class);
-                    Log.d("dateTest", chatMessage.getTimeStamp().toString());
                     chatMessage.setTimeSent(getDateFormat(chatMessage.getTimeStamp()));
                     chatMessage.setTimeStamp(chatMessage.getTimeStamp());
                     if (chatMessage.getSenderId().equals(prefs.getString("userid", "none")) &&

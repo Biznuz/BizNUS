@@ -387,7 +387,6 @@ public class AccountFragment extends Fragment {
     }
 
     private void getReviews() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Reviews").child(profileId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -395,7 +394,6 @@ public class AccountFragment extends Fragment {
                 reviewList.clear();
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Review review = snapshot1.getValue(Review.class);
-                    Log.e("UserA", "" + review.getReview());
                     reviewList.add(review);
                 }
 

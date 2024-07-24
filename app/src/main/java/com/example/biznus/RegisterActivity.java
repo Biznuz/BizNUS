@@ -45,24 +45,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG= "RegisterActivity";
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null){
-//            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(i);
-//            finish();
-//        }
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //getSupportActionBar().setTitle("Register");
 
         // dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -102,28 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
                     registerUser(username, email, password);
                 }
             }
-
-//                if (TextUtils.isEmpty(username)) {
-//                    Toast.makeText(RegisterActivity.this, "Enter username", Toast.LENGTH_SHORT).show();
-//                    editTextUsername.setError("Username is required");
-//                    editTextUsername.requestFocus();
-//                }
-//                if (TextUtils.isEmpty(email)) {
-//                    Toast.makeText(RegisterActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
-//                    editTextEmail.setError("Email is required");
-//                    editTextEmail.requestFocus();
-//                }
-//                if (TextUtils.isEmpty(password)) {
-//                    Toast.makeText(RegisterActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
-//                    editTextPassword.setError("Password is required");
-//                    editTextPassword.requestFocus();
-//                }
-//                if (password.length() < 6) {
-//                    Toast.makeText(RegisterActivity.this, "Password should be at least 6 digits", Toast.LENGTH_SHORT).show();
-//                    editTextPassword.setError("Password too weak");
-//                    editTextPassword.requestFocus();
-//                }
-
         });
 
 
@@ -175,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, "Email not sent" + e.getMessage());
+
                                 }
                             });
 
@@ -217,7 +182,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 editTextPassword.setError("User already registered");
                                 editTextPassword.requestFocus();
                             } catch (Exception e) {
-                                Log.e(TAG, e.getMessage());
                                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }

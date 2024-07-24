@@ -95,17 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
 
-//                if (TextUtils.isEmpty(email)) {
-//                    Toast.makeText(LoginActivity.this, "Enter username", Toast.LENGTH_SHORT).show();
-//                    editTextEmail.setError("Enter username");
-//                    editTextEmail.requestFocus();
-//                }
-//                if (TextUtils.isEmpty(password)) {
-//                    Toast.makeText(LoginActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
-//                    editTextPassword.setError("Enter password");
-//                    editTextPassword.requestFocus();
-//                }
-
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(LoginActivity.this, "Please re-enter email", Toast.LENGTH_SHORT).show();
                     editTextEmail.setError("Valid email required");
@@ -119,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
             }
 
             @Override
@@ -131,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // ignore
             }
         };
 
@@ -147,11 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-
-
                             // add an "!" before mAuth.getCurrentUser() below to login to demo accounts
-
-
                             if (mAuth.getCurrentUser().isEmailVerified()) {
                                 Toast.makeText(getApplicationContext(), "Login successful",
                                         Toast.LENGTH_SHORT).show();
@@ -164,12 +147,10 @@ public class LoginActivity extends AppCompatActivity {
                                 mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Log.d("Verification", "Email sent");
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.e("tag", "Email not sent" + e.getMessage());
                                     }
                                 });
                             }

@@ -66,8 +66,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         if (post != null) {
             Glide.with(mContext).load(post.getListImage()).into(holder.post_image);
-        } else {
-            Log.e("PostAdapter", "Post object is null at position: " + position);
         }
 
         if (post.getIsSold()) {

@@ -97,7 +97,6 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     User user = snapshot.getValue(User.class);
-                                    Log.e("UsersA", user.getUserid());
                                     if (users.size() == 0) {
                                         users.add(user.getUserid());
                                         userList.add(user);
@@ -136,7 +135,6 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user = snapshot.getValue(User.class);
-                            Log.e("UsersA", user.getUserid());
                             if (users.size() == 0) {
                                 users.add(user.getUserid());
                                 userList.add(user);

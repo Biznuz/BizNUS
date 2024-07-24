@@ -31,8 +31,6 @@ public class ReviewActivity extends AppCompatActivity {
     RatingBar ratingBar;
     Button button;
     EditText review;
-    DatabaseReference reference;
-    String listID;
     String lister;
     ProgressDialog progressDialog;
     @Override

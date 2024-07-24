@@ -140,11 +140,4 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
-
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        binding = null;
-//    }
-
 }
