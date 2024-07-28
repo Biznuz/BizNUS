@@ -97,10 +97,8 @@ public class ListingDetailFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         listID = sharedPreferences.getString("listID", "none");
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser.getUid().equals(lister)) {
-            buyButton.setVisibility(View.GONE);
-        }
+
+
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -166,6 +164,7 @@ public class ListingDetailFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 list.clear();
                 Post post = snapshot.getValue(Post.class);
                 if (post.getIsSold()) {
@@ -175,6 +174,9 @@ public class ListingDetailFragment extends Fragment {
                 }
                 list.add(post);
                 lister = post.getLister();
+                if (firebaseUser.getUid().equals(lister)) {
+                    buyButton.setVisibility(View.GONE);
+                }
 
                 SharedPreferences.Editor editor = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
                 editor.putString("lister", lister);
