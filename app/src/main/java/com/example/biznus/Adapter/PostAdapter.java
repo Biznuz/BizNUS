@@ -180,7 +180,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
 
     private void isLiked(String listID, final ImageView imageView) {
-        final FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser1 = FirebaseAuth.getInstance().getCurrentUser();
         if (listID != null) {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child("Likes")

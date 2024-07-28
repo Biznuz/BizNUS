@@ -147,6 +147,11 @@ public class ListingDetailFragment extends Fragment {
                 User user = snapshot.getValue(User.class);
                 Intent i = new Intent(getContext(), ChatActivity.class);
                 i.putExtra("user", (Serializable) user);
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                SharedPreferences prefs1 = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs1.edit();
+                editor.putString("userid", firebaseUser.getUid());
+                editor.commit();
                 startActivity(i);
             }
 
@@ -176,6 +181,7 @@ public class ListingDetailFragment extends Fragment {
                 lister = post.getLister();
                 if (firebaseUser.getUid().equals(lister)) {
                     buyButton.setVisibility(View.GONE);
+                    chat_button.setVisibility(View.GONE);
                 }
 
                 SharedPreferences.Editor editor = getContext().getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();

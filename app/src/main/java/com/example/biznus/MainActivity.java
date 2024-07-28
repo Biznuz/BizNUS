@@ -69,14 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         navView.setOnNavigationItemSelectedListener(item -> {
             MenuItem exploreItem = navView.getMenu().findItem(R.id.navigation_explore);
+            MenuItem searchItem = navView.getMenu().findItem(R.id.navigation_searchuser);
             int exploreItemId = exploreItem.getItemId();
-                if (item.getItemId() == exploreItemId) {
-                    navController.navigate(R.id.navigation_explore, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
-                    return true;
-                }
-                else {
-                    return NavigationUI.onNavDestinationSelected(item, navController);
-                }
+            int searchItemId = searchItem.getItemId();
+            if (item.getItemId() == exploreItemId) {
+                navController.navigate(R.id.navigation_explore, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
+                return true;
+            } else if (item.getItemId() == searchItemId){
+                navController.navigate(R.id.navigation_searchuser, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
+                return true;
+            } else {
+                return NavigationUI.onNavDestinationSelected(item, navController);
+            }
         });
         
         clearSharedPreferences(); 

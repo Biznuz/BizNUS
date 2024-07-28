@@ -104,7 +104,7 @@ public class ChatActivity extends AppCompatActivity {
         readMessages();
         listenMessages();
     }
-
+    
     private void listenMessages() {
         databaseReference.child(receiver.getUserid()).addChildEventListener(childEventListener);
     }
