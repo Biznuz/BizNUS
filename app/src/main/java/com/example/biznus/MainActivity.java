@@ -70,13 +70,18 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(item -> {
             MenuItem exploreItem = navView.getMenu().findItem(R.id.navigation_explore);
             MenuItem searchItem = navView.getMenu().findItem(R.id.navigation_searchuser);
+            MenuItem accountItem = navView.getMenu().findItem(R.id.navigation_account);
             int exploreItemId = exploreItem.getItemId();
             int searchItemId = searchItem.getItemId();
+            int accountItemId = accountItem.getItemId();
             if (item.getItemId() == exploreItemId) {
                 navController.navigate(R.id.navigation_explore, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
                 return true;
             } else if (item.getItemId() == searchItemId){
                 navController.navigate(R.id.navigation_searchuser, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
+                return true;
+            } else if (item.getItemId() == accountItemId) {
+                navController.navigate(R.id.navigation_account, null, new NavOptions.Builder().setPopUpTo(R.id.nav_view, true).build());
                 return true;
             } else {
                 return NavigationUI.onNavDestinationSelected(item, navController);
